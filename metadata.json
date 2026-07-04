@@ -1,0 +1,6 @@
+{
+  "name": "Que Decis",
+  "description": "Landing page interactiva y accesible de ¿Qué Decís?, la herramienta de comunicación instantánea con voz-a-texto y texto-a-voz para personas con discapacidad auditiva.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
