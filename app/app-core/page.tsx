@@ -8,7 +8,8 @@ import TranscriptDisplay from '@/components/TranscriptDisplay';
 import QuickPhrasesChips from '@/components/QuickPhrasesChips';
 import ControlPanel from '@/components/ControlPanel';
 import SettingsModal from '@/components/SettingsModal';
-import Logo from '@/components/logo';
+import AudioIndicator from '@/components/AudioIndicator';
+// import Logo from '@/components/logo';
 
 
 interface SpeechRecognitionCustom {
@@ -47,6 +48,7 @@ export default function AppCorePage() {
   const [categories, setCategories] = useState<PhraseCategory[]>(initialCategories);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [isLightMode, setIsLightMode] = useState<boolean>(false);
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false); 
 
   useEffect(() => {
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -132,26 +134,74 @@ export default function AppCorePage() {
     setUserResponse(e.target.value);
   };
 
+  // //función convierte texto escrito en voz audible para la persona que está escuchando
+  // const handleSpeak = (text: string): void => {
+  //   if (!text.trim()) return;//Si el input está vacío, no hacemos nada
+  //   // 1. Accedemos al motor de síntesis del navegador
+  //   const synth = window.speechSynthesis;
+  //   // 2. Creamos una "instancia de elocución" con el texto del usuario
+  //   const utterance = new SpeechSynthesisUtterance(text);
+  //   // 3. Configuración de idioma 
+  //   const currentVoice = voices.find(v => v.voiceURI === selectedVoiceURI);
+  //     if (currentVoice) {
+  //       utterance.voice = currentVoice;
+  //     } else {
+  //       utterance.lang = 'es-AR'; // (Buena práctica: Español de Argentina)
+  //   }
+  //   // 4. Ajustes opcionales de tono y velocidad (1 es el valor por defecto)
+  //   utterance.pitch = 1;
+  //   utterance.rate = 1;
+  //   // 5. Le ordenamos al navegador que lo diga en voz alta
+  //   synth.speak(utterance);
+  // };
+
   //función convierte texto escrito en voz audible para la persona que está escuchando
-  const handleSpeak = (text: string): void => {
-    if (!text.trim()) return;//Si el input está vacío, no hacemos nada
-    // 1. Accedemos al motor de síntesis del navegador
-    const synth = window.speechSynthesis;
-    // 2. Creamos una "instancia de elocución" con el texto del usuario
-    const utterance = new SpeechSynthesisUtterance(text);
-    // 3. Configuración de idioma 
-    const currentVoice = voices.find(v => v.voiceURI === selectedVoiceURI);
+    const handleSpeak = (text: string): void => {
+      if (!text.trim()) return; //Si el input está vacío, no hacemos nada
+
+      // 1. Accedemos al motor de síntesis del navegador
+      const synth = window.speechSynthesis;
+
+      //PREVENCIÓN CRÍTICA: Si ya estaba hablando, cancelamos el audio previo
+      // para evitar que se encolen los mensajes si el usuario cliquea rápido.
+      synth.cancel();
+
+      // 2. Creamos una "instancia de elocución" con el texto del usuario
+      const utterance = new SpeechSynthesisUtterance(text);
+
+      // 3. Configuración de idioma 
+      const currentVoice = voices.find(v => v.voiceURI === selectedVoiceURI);
       if (currentVoice) {
         utterance.voice = currentVoice;
       } else {
         utterance.lang = 'es-AR'; // (Buena práctica: Español de Argentina)
-    }
-    // 4. Ajustes opcionales de tono y velocidad (1 es el valor por defecto)
-    utterance.pitch = 1;
-    utterance.rate = 1;
-    // 5. Le ordenamos al navegador que lo diga en voz alta
-    synth.speak(utterance);
-  };
+      }
+
+      // 4. Ajustes opcionales de tono y velocidad (1 es el valor por defecto)
+      utterance.pitch = 1;
+      utterance.rate = 1;
+
+      // 🔥 5. DISPARADORES VISUALES DE ACCESIBILIDAD
+      // Cuando las ondas de sonido físicas empiezan a salir por el parlante
+      utterance.onstart = () => {
+        setIsSpeaking(true);
+      };
+
+      // Cuando se pronuncia la última sílaba del texto por completo
+      utterance.onend = () => {
+        setIsSpeaking(false);
+      };
+
+      // Si ocurre un error o el usuario bloquea el audio de golpe
+      utterance.onerror = () => {
+        setIsSpeaking(false);
+      };
+
+      // 6. Le ordenamos al navegador que lo diga en voz alta
+      synth.speak(utterance);
+    };
+
+
 
   //función que captura la frase rápida seleccionada por el usuario y la convierte en voz audible
   const handleSelectPhrase = (phrase: QuickPhrase): void => {
@@ -169,12 +219,11 @@ export default function AppCorePage() {
      
         <TranscriptDisplay transcript={transcript} fontSize={fontSize} isLightMode={isLightMode}/>
      
-      
-
       {/* 2. ZONA INTERMEDIA */}
       
         <QuickPhrasesChips categories={categories} onSelectPhrase={handleSelectPhrase} onOpenSettings={() => setIsSettingsOpen(true)} isLightMode={isLightMode}/>
-      
+        <AudioIndicator isSpeaking={isSpeaking} />
+
       {/* 3. ZONA INFERIOR */}
      
         <ControlPanel 
