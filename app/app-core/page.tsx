@@ -9,6 +9,7 @@ import QuickPhrasesChips from '@/components/QuickPhrasesChips';
 import ControlPanel from '@/components/ControlPanel';
 import SettingsModal from '@/components/SettingsModal';
 import AudioIndicator from '@/components/AudioIndicator';
+import MicAlert from '@/components/MicAlert';
 // import Logo from '@/components/logo';
 
 
@@ -49,6 +50,7 @@ export default function AppCorePage() {
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [isLightMode, setIsLightMode] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false); 
+  const [micPermissionGranted, setMicPermissionGranted] = useState<boolean | null>(null);
 
   useEffect(() => {
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -105,6 +107,32 @@ export default function AppCorePage() {
       }
     }, []);//Final del useEffect: carga de voces disponibles
 
+//función que solicita permiso de micrófono al usuario y actualiza el estado según la respuesta
+  const solicitarPermisoMicrofono = async () => {
+    try {
+      // Intentamos abrir un canal de audio momentáneo
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      // Si la línea de arriba funciona, significa que el usuario aceptó el cartel del celular
+      setMicPermissionGranted(true);
+      
+      // Cerramos el canal momentáneo para que no quede el micrófono encendido innecesariamente
+      stream.getTracks().forEach(track => track.stop());
+    } catch (error) {
+      // Si entra acá, es porque el usuario denegó el permiso o el celular lo tiene bloqueado por defecto
+      console.error("Permiso de micrófono denegado:", error);
+      setMicPermissionGranted(false);
+    }
+  };  
+
+  useEffect(() => {
+    // Función interna para manejar la asincronía de forma segura en React
+    const verificarYPedirPermiso = async () => {
+      await solicitarPermisoMicrofono();
+    };
+
+    verificarYPedirPermiso();
+  }, []);
 
   //función para incrementar letra dentro de un límite
   const increaseFontSize = () => {
@@ -133,27 +161,6 @@ export default function AppCorePage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserResponse(e.target.value);
   };
-
-  // //función convierte texto escrito en voz audible para la persona que está escuchando
-  // const handleSpeak = (text: string): void => {
-  //   if (!text.trim()) return;//Si el input está vacío, no hacemos nada
-  //   // 1. Accedemos al motor de síntesis del navegador
-  //   const synth = window.speechSynthesis;
-  //   // 2. Creamos una "instancia de elocución" con el texto del usuario
-  //   const utterance = new SpeechSynthesisUtterance(text);
-  //   // 3. Configuración de idioma 
-  //   const currentVoice = voices.find(v => v.voiceURI === selectedVoiceURI);
-  //     if (currentVoice) {
-  //       utterance.voice = currentVoice;
-  //     } else {
-  //       utterance.lang = 'es-AR'; // (Buena práctica: Español de Argentina)
-  //   }
-  //   // 4. Ajustes opcionales de tono y velocidad (1 es el valor por defecto)
-  //   utterance.pitch = 1;
-  //   utterance.rate = 1;
-  //   // 5. Le ordenamos al navegador que lo diga en voz alta
-  //   synth.speak(utterance);
-  // };
 
   //función convierte texto escrito en voz audible para la persona que está escuchando
     const handleSpeak = (text: string): void => {
@@ -218,6 +225,10 @@ export default function AppCorePage() {
       {/* 1. ZONA SUPERIOR */}
      
         <TranscriptDisplay transcript={transcript} fontSize={fontSize} isLightMode={isLightMode}/>
+        <MicAlert 
+          micPermissionGranted={micPermissionGranted} 
+          onRetry={solicitarPermisoMicrofono} 
+        />
      
       {/* 2. ZONA INTERMEDIA */}
       
