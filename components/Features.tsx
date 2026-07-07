@@ -4,10 +4,10 @@ export default function Features() {
   const list = [
     {
       title: "Voz a Texto en tiempo real",
-      desc: "Escuchá lo que el oyente habla. La aplicación captura el audio local mediante Web Speech API y lo muestra al instante en la pantalla con letras gigantes y contraste optimizado.",
+      desc: "Escuchá lo que el oyente habla. La aplicación captura el audio local mediante Web Speech API y lo muestra al instante en la pantalla con letras gigantes y contraste optimizado (Nota: Esta funcionalidad requiere conectividad a internet activa).",
       icon: Mic,
       bgColor: "bg-blue-100",
-      textColor: "text-blue-600",
+      textColor: "text-blue-600", 
     },
     {
       title: "Texto a Voz instantáneo",
@@ -39,11 +39,12 @@ export default function Features() {
     },
     {
       title: "Instalable como aplicación (PWA)",
-      desc: "Agregalo a tu pantalla de inicio con un clic para tener acceso directo instantáneo offline sin instalar tiendas pesadas en tu teléfono iOS o Android.",
+      desc: "Agregalo a tu pantalla de inicio con un clic para tener acceso directo instantáneo sin instalar tiendas pesadas en tu teléfono iOS o Android.",
       icon: Download,
       bgColor: "bg-indigo-100",
       textColor: "text-indigo-600",
     },
+
   ];
 
   return (
