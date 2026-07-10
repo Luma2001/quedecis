@@ -94,6 +94,17 @@ export default function AppCorePage() {
         setTranscript('Permiso de micrófono denegado. Activalo en la configuración.');
         setIsListening(false);
       }
+
+      if (event.error === 'network') {
+        console.warn("Aviso de red en Web Speech API: Reintentando conectar el micrófono...");
+        // Truco pro: Si el error es de red temporal, intentamos reiniciar el dictado en 1 segundo
+        setTimeout(() => {
+          if (isListening) {
+            recognition.start();
+          }
+        }, 1000);
+        return;
+      }
     };
 
     recognitionRef.current = recognition 
