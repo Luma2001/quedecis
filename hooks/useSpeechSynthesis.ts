@@ -34,50 +34,50 @@ export function useSpeechSynthesis() {
   };
 
   //CONVERTIR TEXTO ESCRITO EN VOZ
-const handleSpeak = (text: string): void => {
-    if (!text.trim()) return; //Si el input está vacío, no hacemos nada
+  const handleSpeak = (text: string): void => {
+      if (!text.trim()) return; //Si el input está vacío, no hacemos nada
 
-    // 1. Accedemos al motor de síntesis del navegador
-    const synth = window.speechSynthesis;
+      // 1. Accedemos al motor de síntesis del navegador
+      const synth = window.speechSynthesis;
 
-    //PREVENCIÓN CRÍTICA: Si ya estaba hablando, cancelamos el audio previo
-    // para evitar que se encolen los mensajes si el usuario cliquea rápido.
-    synth.cancel();
+      //PREVENCIÓN CRÍTICA: Si ya estaba hablando, cancelamos el audio previo
+      // para evitar que se encolen los mensajes si el usuario cliquea rápido.
+      synth.cancel();
 
-    // 2. Creamos una "instancia de elocución" con el texto del usuario
-    const utterance = new SpeechSynthesisUtterance(text);
+      // 2. Creamos una "instancia de elocución" con el texto del usuario
+      const utterance = new SpeechSynthesisUtterance(text);
 
-    // 3. Configuración de idioma 
-    const currentVoice = voices.find(v => v.voiceURI === selectedVoiceURI);
-    if (currentVoice) {
-    utterance.voice = currentVoice;
-    } else {
-    utterance.lang = 'es-AR'; // (Buena práctica: Español de Argentina)
-    }
+      // 3. Configuración de idioma 
+      const currentVoice = voices.find(v => v.voiceURI === selectedVoiceURI);
+      if (currentVoice) {
+      utterance.voice = currentVoice;
+      } else {
+      utterance.lang = 'es-AR'; // (Buena práctica: Español de Argentina)
+      }
 
-    // 4. Ajustes opcionales de tono y velocidad (1 es el valor por defecto)
-    utterance.pitch = 1;
-    utterance.rate = 1;
+      // 4. Ajustes opcionales de tono y velocidad (1 es el valor por defecto)
+      utterance.pitch = 1;
+      utterance.rate = 1;
 
-    // 🔥 5. DISPARADORES VISUALES DE ACCESIBILIDAD
-    // Cuando las ondas de sonido físicas empiezan a salir por el parlante
-    utterance.onstart = () => {
-    setIsSpeaking(true);
-    };
+      // 🔥 5. DISPARADORES VISUALES DE ACCESIBILIDAD
+      // Cuando las ondas de sonido físicas empiezan a salir por el parlante
+      utterance.onstart = () => {
+      setIsSpeaking(true);
+      };
 
-    // Cuando se pronuncia la última sílaba del texto por completo
-    utterance.onend = () => {
-    setIsSpeaking(false);
-    };
+      // Cuando se pronuncia la última sílaba del texto por completo
+      utterance.onend = () => {
+      setIsSpeaking(false);
+      };
 
-    // Si ocurre un error o el usuario bloquea el audio de golpe
-    utterance.onerror = () => {
-    setIsSpeaking(false);
-    };
+      // Si ocurre un error o el usuario bloquea el audio de golpe
+      utterance.onerror = () => {
+      setIsSpeaking(false);
+      };
 
-    // 6. Le ordenamos al navegador que lo diga en voz alta
-    synth.speak(utterance);
-};//Final de la función: handleSpeak
+      // 6. Le ordenamos al navegador que lo diga en voz alta
+      synth.speak(utterance);
+  };//Final de la función: handleSpeak
 
  //función que captura la frase rápida seleccionada por el usuario y la convierte en voz audible
   const handleSelectPhrase = (phrase: QuickPhrase): void => {
@@ -85,10 +85,7 @@ const handleSpeak = (text: string): void => {
     handleSpeak(phrase.textToSpeak);
   };
 
-// const handleSelectPhrase = (phraseText: string): void => {
-// setUserResponse(phraseText);
-// handleSpeak(phraseText);
-// };
+
 
 return {
 userResponse,
