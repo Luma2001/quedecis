@@ -103,7 +103,7 @@ export default function ControlPanel({
               {/*BOTÓN INTERRUPTOR DE TEMA (SOL / LUNA) */}
               <button
                 onClick={onToggleTheme}
-                className={`p-1 rounded-lg text-xs flex flex-col items-center border transition-all active:scale-95 ${
+                className={`p-1 rounded-lg flex flex-col items-center border transition-all active:scale-95 ${
                   isLightMode ? 'bg-white hover:bg-slate-200 border-slate-700 text-slate-700' : 'bg-slate-800/80 hover:bg-slate-700 border-slate-700 text-slate-300'
                 }`}
                 title={isLightMode ? "Cambiar a Modo Oscuro" : "Cambiar a Modo Claro"}
@@ -115,7 +115,7 @@ export default function ControlPanel({
               {/*BOTÓN INTERRUPTOR DE LATERALIDAD */}
               <button
                 onClick={onToggleLateralidad}
-                className={`p-1 rounded-lg text-xs flex flex-col items-center border transition-all active:scale-95 ${
+                className={`px-4 py-1 rounded-lg flex flex-col items-center border transition-all active:scale-95 ${
                   isLightMode ? 'bg-white hover:bg-slate-200 border-slate-700 text-slate-700' : 'bg-slate-800/80 hover:bg-slate-700 border-slate-700 text-slate-300'
                 }`}
                 title={isLeftHanded ? "Cambiar a modo Diestro" : "Cambiar a modo Zurdo"}
