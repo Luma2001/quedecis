@@ -46,11 +46,22 @@ export default function AppCorePage() {
   const [selectedVoiceURI, setSelectedVoiceURI] = useState<string>('');
   const [fontSize, setFontSize] = useState<number>(32);
   const [isLeftHanded, setIsLeftHanded] = useState<boolean>(false);
-  const [categories, setCategories] = useState<PhraseCategory[]>(initialCategories);
+  // const [categories, setCategories] = useState<PhraseCategory[]>(initialCategories);
+  const [categories, setCategories] = useState<PhraseCategory[]>(() => {
+    if (typeof window !== 'undefined') {
+      const guardadas = localStorage.getItem('queDecis_categories');
+      return guardadas ? JSON.parse(guardadas) : initialCategories;
+    }
+    return initialCategories;
+  });
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [isLightMode, setIsLightMode] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false); 
   const [micPermissionGranted, setMicPermissionGranted] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem('queDecis_categories', JSON.stringify(categories));
+  }, [categories]);
 
   useEffect(() => {
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
