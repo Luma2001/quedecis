@@ -44,9 +44,11 @@ export default function ControlPanel({
       
       {/*INPUT PRINCIPAL DE ESCRITURA */}
       <input
+        id="input-text"
         type="text"
         value={userResponse}
         onChange={onInputChange}
+        onFocus={(e) => e.target.select()}
         placeholder="Escribí tu respuesta acá..."
         className={`w-full rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all border ${
           isLightMode 
@@ -153,7 +155,7 @@ export default function ControlPanel({
           {/* Botón Decir en voz alta */}
           <button
             onClick={() => onSpeak(userResponse)}
-            className="flex-1 bg-teal-600 hover:bg-teal-500 active:scale-[0.98] text-white text-xs font-semibold rounded-xl transition-all shadow-md flex flex-col justify-center items-center p-1 text-center"
+            className="flex-1 bg-teal-600 hover:bg-teal-500 active:scale-[0.98] text-white text-lg font-semibold rounded-xl transition-all shadow-md flex flex-col justify-center items-center p-1 text-center"
           >
             <span className="text-lg mb-0.5">🔊</span>
             <span>Decir texto</span>
@@ -162,13 +164,13 @@ export default function ControlPanel({
           {/* Botón Escuchar Micrófono */}
           <button
             onClick={onToggleListening}
-            className={`flex-1 text-xs font-bold rounded-xl transition-all shadow-lg flex flex-col justify-center items-center p-1 text-center ${
+            className={`flex-1 text-lg font-bold rounded-xl transition-all shadow-lg flex flex-col justify-center items-center p-1 text-center ${
               isListening
                 ? 'bg-red-600 hover:bg-red-500 animate-pulse text-white'
                 : 'bg-emerald-600 hover:bg-emerald-500 text-white'
             }`}
           >
-            <span className="text-lg mb-0.5">{isListening ? '🛑' : '🎙️'}</span>
+            <span className="text-xl mb-0.5">{isListening ? '🛑' : '🎙️'}</span>
             <span>{isListening ? 'Detener' : 'Escuchar'}</span>
           </button>
         </div>
