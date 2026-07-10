@@ -68,16 +68,6 @@ export default function LandingPage() {
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" strokeWidth={2.5} />
             </Link>
           </div>   
-
-          {/* <div className="pt-2 max-w-md mx-auto">
-            <Link 
-              href="/app-core"
-              className="group w-full bg-linear-to-r from-teal-500 to-emerald-500 text-slate-950 font-bold py-4 px-6 rounded-2xl shadow-lg shadow-teal-500/10 hover:shadow-teal-400/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-base"
-            >
-              <span>Ingresar a la Aplicación</span>
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" strokeWidth={2.5} />
-            </Link>
-          </div> */}
         </section>
 
         {/* SECCIÓN 1: LA RAZÓN DEL PROYECTO (PROPÓSITO) */}

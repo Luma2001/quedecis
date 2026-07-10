@@ -76,20 +76,20 @@ export default function ControlPanel({
               <div className="flex items-center space-x-1">
                 <button 
                   onClick={onDecreaseFontSize}
-                  className={`w-7 h-7 rounded-lg font-bold text-xs flex justify-center items-center border transition-all active:scale-90 ${
+                  className={`w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center border transition-all active:scale-90 ${
                     isLightMode ? 'bg-white hover:bg-slate-200 text-slate-800 border-slate-700' : 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700'
                   }`}
                 >
                   A-
                 </button>
-                <span className={` h-7 text-xs font-mono w-11 text-center py-1 rounded border ${
+                <span className={` h-7 text-sm font-mono w-11 text-center py-1 rounded border ${
                   isLightMode ? 'bg-white text-teal-600 border-slate-700' : 'bg-slate-900 text-teal-400 border-slate-800'
                 }`}>
                   {fontSize}px
                 </span>
                 <button 
                   onClick={onIncreaseFontSize}
-                  className={`w-7 h-7 rounded-lg font-bold text-xs flex justify-center items-center border transition-all active:scale-90 ${
+                  className={`w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center border transition-all active:scale-90 ${
                     isLightMode ? 'bg-white hover:bg-slate-200 text-slate-800 border-slate-700' : 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700'
                   }`}
                 >
@@ -108,8 +108,8 @@ export default function ControlPanel({
                 }`}
                 title={isLightMode ? "Cambiar a Modo Oscuro" : "Cambiar a Modo Claro"}
               >
-                <span className="text-sm">{isLightMode ? '🌙' : '☀️'}</span>
-                <span className="text-[8px] font-bold mt-0.5">{isLightMode ? 'OSCURO' : 'CLARO'}</span>
+                <span className="text-md">{isLightMode ? '🌙' : '☀️'}</span>
+                <span className="text-[10px] font-bold mt-0.5">{isLightMode ? 'OSCURO' : 'CLARO'}</span>
               </button>
 
               {/*BOTÓN INTERRUPTOR DE LATERALIDAD */}
@@ -120,8 +120,8 @@ export default function ControlPanel({
                 }`}
                 title={isLeftHanded ? "Cambiar a modo Diestro" : "Cambiar a modo Zurdo"}
               >
-                <span className="text-sm">{isLeftHanded ? '🫲' : '🫱'}</span>
-                <span className="text-[9px] text-slate-400 mt-0.5">{isLeftHanded ? 'ZURDO' : 'DIESTRO'}</span>
+                <span className="text-md">{isLeftHanded ? '🫲' : '🫱'}</span>
+                <span className="text-[10px] text-slate-400 mt-0.5">{isLeftHanded ? 'ZURDO' : 'DIESTRO'}</span>
               </button>
             </div>
           </div>       

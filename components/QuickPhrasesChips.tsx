@@ -30,7 +30,7 @@ export default function QuickPhrasesChips({ categories, onSelectPhrase, onOpenSe
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-md font-semibold whitespace-nowrap transition-all ${
                   isActive ? 'bg-teal-500 text-slate-950 shadow-md' : 'bg-slate-800 text-slate-400'
                 }`}
               >
@@ -54,14 +54,14 @@ export default function QuickPhrasesChips({ categories, onSelectPhrase, onOpenSe
 
       <div className="w-full flex items-center justify-center py-1 flex-1 min-h-0">
 
-        <div className="w-full flex flex-row flex-nowrap gap-2 overflow-x-auto scrollbar-none py-1.5 px-4 items-center justify-start md:justify-center">
+        <div className="w-full flex flex-row flex-nowrap gap-2 overflow-x-auto scrollbar-none py-1.5 px-4 items-center justify-start sm:justify-center">
           {currentCategory && currentCategory.phrases.length > 0 ? (
             currentCategory.phrases.map((phrase) => (
               <button
                 key={phrase.id}
                 onClick={() => onSelectPhrase(phrase)}
 
-                className={`shrink-0 whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-semibold border shadow-sm transition-all text-center active:scale-95 ${
+                className={`shrink-0 whitespace-nowrap px-4 py-1.5 rounded-xl text-lg font-semibold border shadow-sm transition-all text-center active:scale-95 ${
                   isLightMode 
                     ? 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300' 
                     : 'bg-slate-800 hover:bg-slate-750 text-slate-200 border-slate-750'
@@ -72,7 +72,7 @@ export default function QuickPhrasesChips({ categories, onSelectPhrase, onOpenSe
               </button>
             ))
           ) : (
-            <p className="text-xs text-slate-500 italic p-2 w-full text-center">No hay frases en esta categoría.</p>
+            <p className="text-md text-slate-500 italic p-2 w-full text-center">No hay frases en esta categoría.</p>
           )}
         </div>
       </div>
