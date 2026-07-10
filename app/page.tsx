@@ -6,8 +6,12 @@ import { ArrowRight, Heart } from 'lucide-react';
 import Logo from '@/components/logo';
 import Manual from '@/components/Manual';
 import Features from '@/components/Features';
+import PWARegistrationCounter from '@/components/PWARegistrationCounter';
+
 
 export default function LandingPage() {
+
+
   return (
     <div className="min-h-screen w-full  text-white flex flex-col justify-between font-sans selection:bg-teal-500 selection:text-slate-900 ">
 
@@ -24,7 +28,6 @@ export default function LandingPage() {
         {/* Capa de superposición (Overlay) oscura para dar contraste al texto */}
         <div className="absolute inset-0 bg-gray-800/70 backdrop-blur-none" />
       </div>
-
 
       {/* 1. HEADER / IDENTIDAD */}
       <header className="fixed top-0 left-0 right-0 bg-slate-900 w-full max-w-5xl mx-auto px-6 py-5 flex items-center justify-between border-b border-slate-800/40 z-100">
@@ -53,6 +56,9 @@ export default function LandingPage() {
           <p className="text-base text-white leading-relaxed">
             Una solución tecnológica diseñada para agilizar y humanizar la atención de personas con discapacidad auditiva o del habla en entornos de atención al público.
           </p>
+          <div className="py-4">
+            <PWARegistrationCounter />
+          </div>
          {/*CONTENEDOR DEL BOTÓN ADAPTABLE / FLOTANTE */}
           <div className="fixed bottom-0 left-0 right-0 p-4 bg-slate-900/10 backdrop-blur-md border-t border-slate-800 z-50 sm:relative sm:bottom-auto sm:left-auto sm:p-0 sm:bg-transparent sm:backdrop-blur-none sm:border-none sm:z-auto sm:mt-8 max-w-md mx-auto">
             {/* 
@@ -119,3 +125,6 @@ export default function LandingPage() {
     </div>
   );
 }
+
+
+
