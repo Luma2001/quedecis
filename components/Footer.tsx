@@ -1,5 +1,6 @@
-import { MessageSquare,  AlertCircle, Heart } from "lucide-react";
+import {  AlertCircle, Heart } from "lucide-react";
 import Image from "next/image";
+import Logo from "./logo";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -13,7 +14,16 @@ export default function Footer() {
           {/* Brand/Product Section */}
           <div className="md:col-span-5 space-y-4 text-left">
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center p-2 bg-blue-600 rounded-xl text-white">
+                      <div className="flex items-center space-x-3"> 
+                        <Logo />
+                        <div>
+                          <h1 className="text-xl font-black tracking-tight bg-linear-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                            ¿QUÉ DECÍS?
+                          </h1>
+                          <p className="text-[10px] text-teal-400 font-bold tracking-widest uppercase">Asistente Inclusivo</p>
+                        </div>
+                      </div>
+              {/* <div className="flex items-center justify-center p-2 bg-blue-600 rounded-xl text-white">
                 <MessageSquare className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
@@ -23,7 +33,7 @@ export default function Footer() {
                 <span className="text-[9px] font-bold text-orange-400 uppercase tracking-widest leading-none">
                   Modelamiento Inclusivo
                 </span>
-              </div>
+              </div> */}
             </div>
             
             <p className="text-sm text-gray-400 font-sans max-w-sm leading-relaxed">
