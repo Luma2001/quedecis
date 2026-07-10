@@ -49,6 +49,7 @@ export default function Features() {
 
   return (
     <section
+      id="features"
       className="py-16 md:py-24 bg-slate-900/40  scroll-mt-12 text-gray-900 rounded-2xl" 
       aria-labelledby="features-heading"
     >

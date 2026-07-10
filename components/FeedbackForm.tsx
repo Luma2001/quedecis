@@ -49,7 +49,7 @@ export default function FeedbackForm() {
   };
 
   return (
-    <section className="w-full max-w-2xl mx-auto p-6 bg-slate-900/30 border border-slate-800/80 rounded-3xl backdrop-blur-sm">
+    <section id="feedback" className="w-full max-w-2xl mx-auto p-6 bg-slate-900/30 border border-slate-800/80 rounded-3xl backdrop-blur-sm">
       <div className="text-center mb-6">
         <h3 className="text-xl font-bold text-slate-100">🗣️ Tu opinión hace la diferencia</h3>
         <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto leading-relaxed">

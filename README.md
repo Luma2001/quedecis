@@ -156,10 +156,20 @@ Variables requeridas en el archivo ```.env.local``` y en los secretos de Vercel:
 * ```UPSTASH_REDIS_REST_TOKEN```: Token de autenticación portador para operaciones de incremento atómico (Manejado en el servidor).
 ___
 
+## 🔒 Política de Privacidad y Términos de Uso (MVP)
+
+Al ser una solución diseñada bajo principios de **Privacidad por Diseño**, la aplicación establece los siguientes compromisos de transparencia:
+
+*   **Procesamiento de Voz:** El flujo de audio capturado por el micrófono se procesa exclusivamente en el dispositivo del usuario final mediante la Web Speech API nativa. Ninguna conversación es grabada, almacenada, ni transmitida a servidores propios de la aplicación.
+*   **Formularios y Feedback:** Los datos de contacto o comentarios enviados a través del formulario de retroalimentación son procesados de forma voluntaria por el usuario y gestionados de manera segura mediante la API asíncrona de Formspree con el único fin de implementar mejoras de usabilidad.
+*   **Uso del Sistema:** Esta aplicación se distribuye de forma gratuita y con fines sociales como un canal de asistencia a la accesibilidad. El usuario es responsable de otorgar los permisos de micrófono necesarios en su navegador para el correcto funcionamiento de las Web APIs.
+
+___
+
 <div align="center">
 
 |  Desarrolladora   |   <img width="72" height="72" alt="imagen" src="https://github.com/user-attachments/assets/6ae79453-9c35-453b-aaba-28d8442e5bb5" />                   |
 | :------------------- | :----------------------------------------------- |
-| **Luciana Quilcate** | **[github](https://github.com/Luma2001)**        |
+| **Luciana Quilcate (Luma)** | **[github](https://github.com/Luma2001)**        |
 
 </div>

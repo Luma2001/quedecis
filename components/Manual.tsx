@@ -34,6 +34,7 @@ export default function Manual() {
 
     return (
     <section
+      id="manual"
       className="py-16 md:py-24  bg-slate-900/40  border border-slate-800/60 rounded-2xl space-y-2.5 shadow-sm scroll-mt-12 scrollbar-none text-gray-900 z-0"
       aria-labelledby="manual-heading"
     >
