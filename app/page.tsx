@@ -7,6 +7,7 @@ import Logo from '@/components/logo';
 import Manual from '@/components/Manual';
 import Features from '@/components/Features';
 import PWARegistrationCounter from '@/components/PWARegistrationCounter';
+import FeedbackForm from "@/components/FeedbackForm";
 
 
 export default function LandingPage() {
@@ -41,7 +42,7 @@ export default function LandingPage() {
           </div>
         </div>
         <span className="text-[10px] bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full font-mono text-slate-400">
-          v1.0.0 · MVP PWA Offline
+          v1.0.0 · MVP PWA Híbrida
         </span>
       </header>
 
@@ -93,8 +94,11 @@ export default function LandingPage() {
 
         {/* SECCIÓN 3: CÓMO SE USA (GUÍA RÁPIDA) */}
         <Manual />
-
+        
+        {/* SECCIÓN 4: FORMULARIO DE FEEDBACK / CONTACTO */}
+        <FeedbackForm />
       </main>
+
 
       {/* 3. FOOTER / AUTORÍA */}
       <footer className="w-full max-w-4xl mx-auto px-6 py-6 border-t bg-slate-900 border-slate-800/60 flex flex-col sm:flex-row items-center justify-center gap-4 text-xs text-white">

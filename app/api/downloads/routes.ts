@@ -1,4 +1,3 @@
-// app/api/downloads/route.ts
 import { NextResponse } from 'next/server';
 import { Redis } from '@upstash/redis';
 
