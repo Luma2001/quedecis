@@ -1,31 +1,32 @@
-
+// app/api/downloads/route.ts
 import { NextResponse } from 'next/server';
-// Aquí importarías tu cliente de base de datos, por ejemplo Vercel KV o Supabase
-// import { kv } from '@vercel/kv'; 
+import { Redis } from '@upstash/redis';
 
+// Upstash lee automáticamente las credenciales que Vercel te inyectó al hacer clic
+const redis = Redis.fromEnv();
+const COUNTER_KEY = 'queDecis_total_instalaciones';
 
-  const totalDescargas = 148; // Simulación base para el ejemplo de código
-  
 export async function GET() {
   try {
-    // 1. Buscamos el número actual en la base de datos
-    // const totalDescargas = await kv.get('total_descargas') || 0;
-  
-
-    return NextResponse.json({ count: totalDescargas });
+    // 1. Buscamos el valor actual en la nube de Upstash. Si no existe, devolvemos 0
+    const totalInstalaciones = await redis.get<number>(COUNTER_KEY) || 0;
+    
+    return NextResponse.json({ count: totalInstalaciones });
   } catch (error) {
-    return NextResponse.json({ error : 'Error al leer la base de datos' }, { status: 500 });
+    console.error('Error leyendo de Upstash:', error);
+    return NextResponse.json({ error: 'Error de servidor' }, { status: 500 });
   }
 }
 
 export async function POST() {
   try {
-    // 2. Incrementamos el contador en +1 en la base de datos de forma segura
-    // const nuevoTotal = await kv.incr('total_descargas');
-    const nuevoTotal = totalDescargas + 1; // Simulación base
+    // 2. Ejecutamos la función atómica 'incr' de Redis
+    // Esto suma +1 directamente en la nube de forma segura
+    const nuevoTotal = await redis.incr(COUNTER_KEY);
 
     return NextResponse.json({ count: nuevoTotal });
   } catch (error) {
-    return NextResponse.json({ error: 'Error al actualizar el contador' }, { status: 500 });
+    console.error('Error incrementando en Upstash:', error);
+    return NextResponse.json({ error: 'Error de servidor' }, { status: 500 });
   }
 }
