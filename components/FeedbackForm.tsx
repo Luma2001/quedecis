@@ -111,6 +111,19 @@ export default function FeedbackForm() {
 
         <div>
           <label className="block text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1.5 font-mono">
+            Tu Email <span className="text-slate-500 font-normal lowercase">(Opcional)</span>
+          </label>
+          <input 
+            type="email" 
+            name="email" 
+            disabled={isSubmitting}
+            placeholder="Ej. usuario@email.com (si querés que te respondamos)"
+            className="w-full bg-slate-950/60 border border-slate-800 focus:border-teal-500/50 p-3 rounded-xl text-sm text-slate-200 placeholder-slate-600 outline-none transition-colors disabled:opacity-50"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1.5 font-mono">
             {profileType === 'usuario' ? '¿Cómo fue tu experiencia usando la app?' : 'Tu Opinión o Sugerencia Técnica'}
           </label>
           <textarea 
