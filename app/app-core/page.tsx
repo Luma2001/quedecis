@@ -53,20 +53,27 @@ const {
 
   
   return (
-    <div className={`h-screen w-full flex flex-col justify-between overflow-hidden font-sans transition-colors duration-300 ${
-      isLightMode ? 'bg-slate-100 text-slate-900' : 'bg-slate-900 text-white'
-    }`}>
+    <div className="h-screen w-full flex flex-col justify-between overflow-hidden bg-bg-main text-text-main font-sans transition-colors duration-300">
       
       {/* 1. ZONA SUPERIOR */}     
-        <TranscriptDisplay transcript={transcript} fontSize={fontSize} isLightMode={isLightMode}/>
+        <TranscriptDisplay 
+            transcript={transcript} 
+            fontSize={fontSize} 
+            
+        />
         <MicAlert 
           micPermissionGranted={micPermissionGranted} 
           onRetry={solicitarPermisoMicrofono} 
         />
      
       {/* 2. ZONA INTERMEDIA */}      
-        <QuickPhrasesChips categories={categories} onSelectPhrase={handleSelectPhrase} onOpenSettings={() => setIsSettingsOpen(true)} isLightMode={isLightMode}/>
-        <AudioIndicator isSpeaking={isSpeaking} />
+        <QuickPhrasesChips 
+            categories={categories}   
+            onSelectPhrase={handleSelectPhrase} 
+            onOpenSettings={() => setIsSettingsOpen(true)} 
+        />
+        <AudioIndicator isSpeaking={isSpeaking}
+       />
 
       {/* 3. ZONA INFERIOR */}     
         <ControlPanel 
@@ -93,7 +100,6 @@ const {
           onClose={() => setIsSettingsOpen(false)}
           categories={categories}
           onSaveCategories={setCategories}
-          isLightMode={isLightMode}
         />
     </div>
   );

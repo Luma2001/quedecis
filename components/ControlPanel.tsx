@@ -38,9 +38,7 @@ export default function ControlPanel({
   onToggleTheme
 }: ControlPanelProps) {
   return (
-    <section className={`w-full max-w-md mx-auto p-4 space-y-3 border-t shrink-0 transition-colors duration-300 ${
-      isLightMode ? 'bg-white border-slate-200' : 'bg-slate-900 border-slate-800/60'
-    }`}>
+    <section className="w-full max-w-md mx-auto p-4 space-y-3 border-t shrink-0 bg-panel border-panel-border transition-colors duration-300">
       
       {/*INPUT PRINCIPAL DE ESCRITURA */}
       <input
@@ -50,11 +48,7 @@ export default function ControlPanel({
         onChange={onInputChange}
         onFocus={(e) => e.target.select()}
         placeholder="Escribí tu respuesta acá..."
-        className={`w-full rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all border ${
-          isLightMode 
-            ? 'bg-slate-100 text-slate-900 placeholder-slate-800 border-slate-300' 
-            : 'bg-slate-800 text-white placeholder-slate-500 border-slate-700'
-        }`}
+        className="w-full rounded-xl px-4 py-3 text-base bg-input border-input-border text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500/50 transition-all border"
       />
 
       {/* DISTRIBUCIÓN EN PARALELO CON CONTROL DE DIRECCIÓN (RTL si es zurdo) */}
@@ -63,36 +57,26 @@ export default function ControlPanel({
         
         {/* PANEL DE ACCESIBILIDAD (Ocupa 7 de 12 columnas) */}
         {/* Restauramos la dirección a ltr internamente en la cajita para que los botones +- no se inviertan */}
-        <div className={`col-span-7 p-3 rounded-xl border flex flex-col justify-between space-y-2 transition-colors duration-300 ${
-          isLightMode ? 'bg-slate-50 border-slate-700' : 'bg-slate-800/40 border-slate-800/80'
-        }`} dir="ltr">
+        <div className="col-span-7 p-3 rounded-xl border flex flex-col justify-between space-y-2 bg-card-bg border-card-border transition-colors duration-300" dir="ltr">
           
           {/* Fila de controles superiores: Letra y Switch de mano */}
           <div className="flex items-center justify-between">
             <div className="flex flex-col space-y-1">
-              <span className={`text-[11px] font-bold uppercase tracking-widest flex items-center gap-1 ${
-                isLightMode ? 'text-slate-800' : 'text-slate-400'
-              }`}><span className="text-sm">👁️</span><span> Letra:</span></span>
+              <span className="text-[11px] font-bold text-text-secondary uppercase tracking-widest flex items-center gap-1">
+                <span className="text-sm">👁️</span><span> Letra:</span></span>
               <div className="flex items-center space-x-1">
                 <button 
                   onClick={onDecreaseFontSize}
-                  className={`w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center border transition-all active:scale-90 ${
-                    isLightMode ? 'bg-white hover:bg-slate-200 text-slate-800 border-slate-700' : 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700'
-                  }`}
+                  className="w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-90 border"
                 >
                   A-
                 </button>
-                <span className={` h-7 text-sm font-mono w-11 text-center py-1 rounded border ${
-                  isLightMode ? 'bg-white text-teal-600 border-slate-700' : 'bg-slate-900 text-teal-400 border-slate-800'
-                }`}>
+                <span className="h-7 text-sm font-mono w-11 text-center py-1 rounded bg-panel border-card-border text-brand-blue">
                   {fontSize}px
                 </span>
                 <button 
                   onClick={onIncreaseFontSize}
-                  className={`w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center border transition-all active:scale-90 ${
-                    isLightMode ? 'bg-white hover:bg-slate-200 text-slate-800 border-slate-700' : 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700'
-                  }`}
-                >
+                  className="w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-90 border">
                   A+
                 </button>
               </div>
@@ -103,9 +87,7 @@ export default function ControlPanel({
               {/*BOTÓN INTERRUPTOR DE TEMA (SOL / LUNA) */}
               <button
                 onClick={onToggleTheme}
-                className={`p-1 rounded-lg flex flex-col items-center border transition-all active:scale-95 ${
-                  isLightMode ? 'bg-white hover:bg-slate-200 border-slate-700 text-slate-700' : 'bg-slate-800/80 hover:bg-slate-700 border-slate-700 text-slate-300'
-                }`}
+                className="p-1 rounded-lg flex flex-col items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-95 border"
                 title={isLightMode ? "Cambiar a Modo Oscuro" : "Cambiar a Modo Claro"}
               >
                 <span className="text-md">{isLightMode ? '🌙' : '☀️'}</span>
@@ -115,9 +97,7 @@ export default function ControlPanel({
               {/*BOTÓN INTERRUPTOR DE LATERALIDAD */}
               <button
                 onClick={onToggleLateralidad}
-                className={`px-4 py-1 rounded-lg flex flex-col items-center border transition-all active:scale-95 ${
-                  isLightMode ? 'bg-white hover:bg-slate-200 border-slate-700 text-slate-700' : 'bg-slate-800/80 hover:bg-slate-700 border-slate-700 text-slate-300'
-                }`}
+                className="px-4 py-1 rounded-lg flex flex-col items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-95 border"
                 title={isLeftHanded ? "Cambiar a modo Diestro" : "Cambiar a modo Zurdo"}
               >
                 <span className="text-md">{isLeftHanded ? '🫲' : '🫱'}</span>
@@ -128,17 +108,12 @@ export default function ControlPanel({
           {/* Selector de Voces */}
           {voices.length > 0 && (
             <div className="flex flex-col space-y-1">
-              <label className={`text-[11px] text-slate-300 font-bold uppercase tracking-widest flex items-center gap-1 ${
-                 isLightMode ? 'text-slate-800' : 'text-slate-400'
-              }
-              }`}><span className="text-sm">🗣️</span><span>Voz:</span></label>
+              <label className="text-[11px] text-text-secondary font-bold uppercase tracking-widest flex items-center gap-1">
+                <span className="text-sm">🗣️</span><span>Voz:</span></label>
               <select
                 value={selectedVoiceURI}
                 onChange={(e) => onVoiceChange(e.target.value)}
-                className={`w-full text-xs rounded-lg p-1 focus:outline-none focus:ring-1 focus:ring-teal-500 border truncate ${
-                  isLightMode ? 'bg-white text-slate-800 border-slate-700' : 'bg-slate-800 text-slate-200 border-slate-700'
-                }`}
-              >
+                className="w-full text-xs rounded-lg p-1 bg-input border-input-border text-text-primary focus:outline-none focus:ring-1 focus:ring-teal-500 border truncate">
                 {voices.map((voice) => (
                   <option key={voice.voiceURI} value={voice.voiceURI}>
                     {voice.name}

@@ -1,5 +1,93 @@
 @import "tailwindcss";
 
+:root{
+  /*Variables por defecto (Modo Oscuro)*/
+  --bg-primary: #0b0f19;
+  --text-primary: #f1f5f9;
+  --text-secondary: #949a3b8;
+  --text-strong: #ffffff;
+  --text-accent: #38bdf8;
+  /*Audio*/
+  --indicator-text: #2dd4bf;
+  --indicator-bg: rgba(13, 148, 136, 0.1);/*con opacidad 10%*/
+  --indicator-border: rgba(13, 148, 136, 0.2);/*con opacidad 20%*/
+  /*Overlay*/
+  --overlay-bg: rgba(2,6,23,0.7)/*Overlay: Slate 950 con 70% de opacidad */
+  /*Panel*/
+  --panel-bg: #; 
+  --panel-bg: #0f172a; /* bg-slate-900 */
+  --panel-border: rgba(30, 41, 59, 0.6); /* border-slate-800/60 */
+  --card-bg: rgba(30, 41, 59, 0.4);      /* bg-slate-800/40 */
+  --card-border: rgba(30, 41, 59, 0.8);  /* border-slate-800/80 */
+  --input-bg: #1e293b;               /* bg-slate-800 */
+  --input-border: #334155;           /* border-slate-700 */
+}
+
+/* Modo Claro: Variables cuando el contenedor tiene la clase 'light' */
+.light {
+  --bg-primary: #f8fafc;       
+  --text-primary: #0f172a;     
+  --text-secondary: #475569;   
+  --text-strong: #ffffee;
+  --text-accent: #0284c7;
+  /*Audio*/
+  --indicator-text: #0f766e;
+  --indicator-bg: rgba(20, 184, 166, 0.08);
+  --indicator-border: rgba(20, 184, 166, 0.15);
+  /*Overlay*/
+  --overlay-bg: rgba(248, 250, 252, 0.8);/*Overlay: Slate 50 con 80% de opacidad */
+  /*Panel*/
+  --panel-bg: #ffffff;               /* bg-white */
+  --panel-border: #e2e8f0;           /* border-slate-200 */
+  --card-bg: #f8fafc;                /* bg-slate-50 */
+  --card-border: #cbd5e1;            /* border-slate-300 (Subimos contraste para accesibilidad) */
+  --input-bg: #f1f5f9;               /* bg-slate-100 */
+  --input-border: #cbd5e1;           /* border-slate-300 */
+}
+
+@theme {
+  /* Declaramos las variables adentro de @theme, Tailwind v4 hace dos cosas, por ejemplo:
+     1. Crea la variable nativa --color-brand-blue.
+     2. Genera automáticamente la clase de utilidad: text-brand-blue o bg-brand-blue. */
+  --color-brand-blue: var(--text-accent);
+  --font-sans: var(--font-atkinson), sans-serif;
+
+  --color-indicator-text: var(--indicator-text);
+  --color-indicator-bg: var(--indicator-bg);
+  --color-indicator-border: var(--indicator-border);
+  --color-bg-main: var(--bg-primary);
+  --color-overlay: var(--overlay-bg);
+
+  /*Clases para el control panel*/
+  --color-panel-bg: var(--panel-bg);
+  --color-panel-border: var(--panel-border);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-input-bg: var(--input-bg);
+  --color-input-border: var(--input-border);
+
+  /*Textos accesibles*/
+  --color-text-main: var(--text-primary);
+  --color-text-muted: var(--text-secondary);
+  --color-text-contrast: var(--text-strong);
+
+  
+}
+
+/* Aplicamos las variables al body de forma global */
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    /*transition(mejoramos UX): cuando el usuario cambia entre el Modo Claro 
+    y el Modo Oscuro, los colores de fondo y de texto no cambian de golpe*/
+    transition: background-color 0.3s ease, color 0.3s ease; 
+  }
+
+
+
+/* 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +111,4 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-}
+} */
