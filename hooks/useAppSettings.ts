@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { initialCategories, PhraseCategory } from '@/data/phrases.data';
 
-// Cambiá los tipos 'any' por tus interfaces reales (PhraseCategory, etc.)
 export function useAppSettings() {
   const [fontSize, setFontSize] = useState<number>(32);
   const [isLeftHanded, setIsLeftHanded] = useState<boolean>(false);
@@ -19,6 +18,23 @@ export function useAppSettings() {
   useEffect(() => {
     localStorage.setItem('queDecis_categories', JSON.stringify(categories));
   }, [categories]);
+
+//Sincronizador del tema global con Tailwind v4 */
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const root = window.document.documentElement; // Accedemos a la etiqueta <html>
+      if (isLightMode) {
+        root.classList.add('light');
+        root.classList.remove('dark');
+      } else {
+        root.classList.add('dark');
+        root.classList.remove('light');
+      }
+    }
+  }, [isLightMode]);
+
+
+
 
  //función para incrementar letra dentro de un límite
   const increaseFontSize = () => {

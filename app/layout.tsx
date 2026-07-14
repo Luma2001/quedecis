@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+/* Fue diseñada específicamente para aumentar la legibilidad de los textos 
+   en personas con baja visión. Se enfoca en la distinción de caracteres */
+import { Atkinson_Hyperlegible } from 'next/font/google';
 
 import "./styles/globals.css";
 
+const atkinson = Atkinson_Hyperlegible({ 
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-atkinson",//es el nombre de la variable CSS que se usará para referenciar esta fuente en el proyecto.
+});
 
 
 export const metadata: Metadata = {
@@ -35,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={` h-full antialiased`}>
+    <html lang="es" className={` h-full antialiased ${atkinson.variable}`}>
       <body className="min-h-full flex flex-col">
         {children}
       </body>

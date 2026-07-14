@@ -14,7 +14,7 @@ export default function LandingPage() {
 
 
   return (
-    <div className="min-h-screen w-full  text-white flex flex-col justify-between font-sans selection:bg-teal-500 selection:text-slate-900 ">
+    <div className="min-h-screen w-full text-text-main flex flex-col justify-between font-sans selection:bg-teal-500 selection:text-slate-900 transition-colors duration-300">
 
       {/* Imagen de Fondo */}
       <BackgroundImage />

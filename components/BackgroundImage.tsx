@@ -13,8 +13,8 @@ const BackgroundImage = () => {
           priority
           className="object-cover object-center" // Equivalente a background-size: cover
         />
-        {/* Capa de superposición (Overlay) oscura para dar contraste al texto */}
-        <div className="absolute inset-0 bg-gray-800/70 backdrop-blur-none" />
+        {/* Capa de superposición (Overlay) para dar contraste al texto */}
+        <div className="absolute inset-0 bg-slate-950/85 light:bg-slate-100/90 transition-colors duration-300" />
       </div>
       </>
   )

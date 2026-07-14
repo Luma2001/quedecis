@@ -37,13 +37,13 @@ export default function PWARegistrationCounter() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center space-y-3 p-4 bg-slate-900/30 border border-slate-800/60 rounded-2xl max-w-sm mx-auto">
-      <p className="text-xs text-center text-slate-300">
+    <div className="flex flex-col items-center space-y-3 p-4 bg-card-bg border border-card-border rounded-2xl max-w-sm mx-auto transition-all duration-300">
+      <p className="text-xs text-center text-text-muted transition-colors duration-300 font-sans">
         Para instalar la app en tu celular o compu, usa el botón nativo de instalación 📥 en la barra de tu navegador.
       </p>
 
       {/* El indicador visual */}
-      <span className="text-xs text-teal-400 font-mono tracking-wider uppercase bg-slate-950 px-3 py-1 rounded-full border border-slate-800 animate-fade-in">
+      <span className="text-xs text-indicator-text font-mono tracking-wider uppercase bg-input px-3 py-1 rounded-full border border-input-border animate-fade-in transition-all duration-300">
         {downloadCount !== null ? `${downloadCount} dispositivos vinculados` : 'Sincronizando comunidad...'}
       </span>
     </div>
