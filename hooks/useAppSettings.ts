@@ -5,7 +5,16 @@ export function useAppSettings() {
   const [fontSize, setFontSize] = useState<number>(32);
   const [isLeftHanded, setIsLeftHanded] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [isLightMode, setIsLightMode] = useState<boolean>(false);
+  const [isLightMode, setIsLightMode] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const guardado = localStorage.getItem('queDecis_theme');
+      if (guardado !== null) {
+        return guardado === 'light';
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false; // Valor por defecto en el servidor
+  });
   
   const [categories, setCategories] = useState<PhraseCategory[]>(() => {
     if (typeof window !== 'undefined') {
@@ -26,9 +35,11 @@ export function useAppSettings() {
       if (isLightMode) {
         root.classList.add('light');
         root.classList.remove('dark');
+        localStorage.setItem('queDecis_theme', 'light');
       } else {
         root.classList.add('dark');
         root.classList.remove('light');
+        localStorage.setItem('queDecis_theme', 'dark');
       }
     }
   }, [isLightMode]);

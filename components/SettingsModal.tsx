@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { X, Trash2, Save } from 'lucide-react';
 import { PhraseCategory } from '@/data/phrases.data';
 
 interface SettingsModalProps {
@@ -88,35 +89,46 @@ export default function SettingsModal({ isOpen, onClose, categories, onSaveCateg
 
   return (
    
-    <div className="fixed inset-0 z-50 bg-overlay backdrop-blur-sm flex justify-center items-end sm:items-center p-4">
-      <div className="bg-panel border border-panel-border w-full max-w-md rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[90vh] shadow-2xl transition-all animate-in slide-in-from-bottom duration-300 ">
+    <div className="fixed inset-0 z-150 flex items-end sm:items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md transition-all duration-300">
+      
+      {/* Tarjeta contenedora principal con fondo sólido para evitar que el blur del fondo interfiera */}
+      <div className="w-full max-w-lg bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transition-all animate-in slide-in-from-bottom duration-300">
         
-        {/* Cabecera del Panel */}
-        <div className="p-4 border-b border-panel-border flex justify-between items-center shrink-0 transition-colors duration-300">
-          <h2 className="text-base font-bold text-indicator-text transition-colors duration-300">⚙️ Panel de Gestión de Frases</h2>
-          <button 
-            onClick={onClose} 
-            className="text-text-muted hover:text-text-contrast font-bold p-1 text-sm transition-colors cursor-pointer"
+        <div className="px-6 py-5 bg-slate-950 light:bg-slate-100 border-b border-slate-800 light:border-slate-200 flex items-center justify-between shrink-0 transition-colors duration-300">
+          <div className="flex items-center space-x-2">
+            <span className="text-xl">⚙️</span>
+            <h2 className="text-lg md:text-base font-black tracking-tight text-white light:text-slate-900 transition-colors duration-300">
+              Panel de Gestión de Frases
+            </h2>
+          </div>
+          <button
+            onClick={onClose}
+            className="flex items-center space-x-1.5 px-4 py-2.5 md:px-3 md:py-1.5 rounded-xl bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 transition-all duration-200 cursor-pointer text-base md:text-sm font-bold"
+            aria-label="Cerrar panel"
           >
-            Cerrar
+            <span>Cerrar</span>
+            <X className="w-5 h-5 md:w-4 md:h-4" />
           </button>
         </div>
 
-        {/* Contenido Scrolleable */}
-        <div className="p-4 overflow-y-auto space-y-6 flex-1">
+        {/* Contenido con scroll interno */}
+        <div className="p-6 overflow-y-auto space-y-6 scrollbar-none flex-1">
           
           {/* FORMULARIO DE ALTA */}
-          <form onSubmit={handleSubmit} className="space-y-4 bg-card-bg p-3 rounded-xl border border-card-border transition-all duration-300">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-indicator-text transition-colors duration-300">
+          <form onSubmit={handleSubmit} className="space-y-4 bg-card-bg light:bg-slate-50 p-4 rounded-xl border border-card-border light:border-slate-200 transition-all duration-300">
+            <h3 className="text-sm md:text-xs font-bold uppercase tracking-wider text-indicator-text transition-colors duration-300">
               ➕ Agregar Frase / Categoría
             </h3>
             
-            <div className="flex flex-col space-y-1">
-              <label className="text-xs text-text-muted transition-colors duration-300">Seleccionar Destino:</label>
+            {/* Seleccionar Destino */}
+            <div className="flex flex-col space-y-2">
+              <label className="text-base md:text-sm font-bold text-text-primary transition-colors duration-300">
+                Seleccionar Destino:
+              </label>
               <select 
                 value={selectedCatId}
                 onChange={(e) => setSelectedCatId(e.target.value)}
-                className="bg-input border border-input-border text-text-primary rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all duration-300"
+                className="w-full bg-input border border-input-border text-text-primary rounded-xl px-4 py-3 text-base md:text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 transition-all duration-300"
               >
                 <option value="new">[ Nueva Categoría ]</option>
                 {categories.map(cat => (
@@ -125,66 +137,88 @@ export default function SettingsModal({ isOpen, onClose, categories, onSaveCateg
               </select>
             </div>
 
+            {/* Nueva Categoría (Si corresponde) */}
             {selectedCatId === 'new' && (
-              <div className="flex flex-col space-y-1 animate-in fade-in duration-150">
-                <label className="text-xs text-text-muted transition-colors duration-300">Nombre de la nueva Categoría:</label>
+              <div className="flex flex-col space-y-2 animate-in fade-in duration-150">
+                <label className="text-base md:text-sm font-bold text-text-primary transition-colors duration-300">
+                  Nombre de la nueva Categoría:
+                </label>
                 <input 
                   type="text" 
                   value={newCatName}
                   onChange={(e) => setNewCatName(e.target.value)}
                   placeholder="Ej: 🛒 Supermercado"
-                  className="bg-input border border-input-border text-text-primary rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all duration-300"
+                  className="w-full bg-input border border-input-border text-text-primary rounded-xl px-4 py-3 text-base md:text-sm placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-teal-500 transition-all duration-300"
                 />
               </div>
             )}
 
-            <div className="flex flex-col space-y-1">
-              <label className="text-xs text-text-muted transition-colors duration-300">Etiqueta corta del botón (Label):</label>
+            {/* Etiqueta corta */}
+            <div className="flex flex-col space-y-2">
+              <label className="text-base md:text-sm font-bold text-text-primary transition-colors duration-300">
+                Etiqueta corta del botón (Label):
+              </label>
               <input 
                 type="text" 
                 value={phraseLabel}
                 onChange={(e) => setPhraseLabel(e.target.value)}
                 placeholder="Ej: ¿Cuánto sale?"
-                className="bg-input border border-input-border text-text-primary rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all duration-300"
+                className="w-full bg-input border border-input-border text-text-primary rounded-xl px-4 py-3 text-base md:text-sm placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-teal-500 transition-all duration-300"
               />
             </div>
 
-            <div className="flex flex-col space-y-1">
-              <label className="text-xs text-text-muted transition-colors duration-300">Lo que dirá el parlante (Texto a voz):</label>
+            {/* Texto a voz (Textarea) */}
+            <div className="flex flex-col space-y-2">
+              <label className="text-base md:text-sm font-bold text-text-primary transition-colors duration-300">
+                Lo que dirá el parlante (Texto a voz):
+              </label>
               <textarea 
                 value={phraseText}
                 onChange={(e) => setPhraseText(e.target.value)}
                 placeholder="Ej: Disculpe, ¿me podría decir cuál es el precio de este producto?"
-                rows={2}
-                className="bg-input border border-input-border text-text-primary rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-teal-500 resize-none transition-all duration-300"
+                rows={3}
+                className="w-full bg-input border border-input-border text-text-primary rounded-xl px-4 py-3 text-base md:text-sm placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-teal-500 resize-none transition-all duration-300"
               />
             </div>
 
-            <button type="submit" className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-lg text-xs transition-colors cursor-pointer">
-              💾 Guardar Entrada
+            {/* Botón Guardar */}
+            <button 
+              type="submit" 
+              className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3.5 md:py-2.5 rounded-xl text-base md:text-sm transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-md"
+            >
+              <Save className="w-5 h-5 md:w-4 md:h-4" />
+              <span>Guardar Entrada</span>
             </button>
           </form>
 
+          {/* Separador */}
+          <hr className="border-slate-800 light:border-slate-200" />
+
           {/* LISTADO DE EDICIÓN / ELIMINACIÓN */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-rose-500 dark:text-rose-400 transition-colors duration-300">
-              🗑️ Listado Actual (Hacer clic para eliminar)
-            </h3>
+          <div className="space-y-4">
+            {/* Título de eliminación con color de alerta accesible */}
+            <div className="flex items-center space-x-2 text-rose-400 light:text-rose-600">
+              <Trash2 className="w-5 h-5 md:w-4 md:h-4" />
+              <h3 className="text-sm md:text-xs font-black tracking-wider uppercase">
+                Listado Actual (Hacer clic para eliminar)
+              </h3>
+            </div>
+
             {categories.map(cat => (
-              <div key={cat.id} className="space-y-1">
-                <h4 className="text-xs font-bold text-text-muted border-b border-panel-border pb-0.5 transition-all duration-300">
+              <div key={cat.id} className="space-y-2">
+                <h4 className="text-base md:text-sm font-bold text-text-muted border-b border-panel-border pb-1 transition-all duration-300">
                   {cat.name}
                 </h4>
-                <div className="flex flex-wrap gap-1.5 py-1">
+                <div className="flex flex-wrap gap-2.5 py-1">
                   {cat.phrases.map(p => (
                     <button
                       key={p.id}
                       onClick={() => handleDeletePhrase(cat.id, p.id)}
-                      className="bg-input border border-input-border hover:bg-red-500/10 hover:border-red-500/30 text-text-muted hover:text-red-500 dark:hover:text-red-400 text-[10px] px-2 py-1 rounded-md transition-all duration-300 flex items-center space-x-1 cursor-pointer"
+                      className="bg-input border border-input-border hover:bg-red-500/10 hover:border-red-500/30 text-text-muted hover:text-red-500 dark:hover:text-red-400 text-base md:text-xs px-4 py-2.5 md:px-3 md:py-1.5 rounded-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer shadow-xs"
                       title="Eliminar frase"
                     >
-                      <span>{p.label}</span>
-                      <span className="text-[9px] opacity-60">❌</span>
+                      <span className="font-medium">{p.label}</span>
+                      <span className="text-xs opacity-65">✕</span>
                     </button>
                   ))}
                 </div>
