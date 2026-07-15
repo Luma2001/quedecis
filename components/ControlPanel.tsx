@@ -93,7 +93,6 @@ export default function ControlPanel({
                 <span className="text-md">{isLightMode ? '🌙' : '☀️'}</span>
                 <span className="text-[10px] font-bold mt-0.5">{isLightMode ? 'OSCURO' : 'CLARO'}</span>
               </button>
-
               {/*BOTÓN INTERRUPTOR DE LATERALIDAD */}
               <button
                 onClick={onToggleLateralidad}
