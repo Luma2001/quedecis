@@ -22,8 +22,9 @@ La solución está desarrollada como una **PWA (Progressive Web App)** con capac
   ![alt text](./public/image/image5.png)
 *   **Ergonomía Adaptativa (Modo Zurdo):** Permite invertir la disposición de la botonera principal para facilitar la operación con un solo pulgar según la lateralidad del usuario.
    ![alt text](./public/image/image6.png) ![alt text](./public/image/image7.png)
-*   **Control de Accesibilidad Visual:** Ajuste dinámico de tipografía (hasta 60px) en tiempo real y alternancia a Modo Claro de alto contraste para contrarrestar reflejos de luz ambiental.
+*   **Control de Accesibilidad Visual:** Ajuste dinámico de tipografía (hasta 60px) en tiempo real y cuenta con modo claro/oscuro nativo con Tailwind v4 y variables CSS semánticas.
 *   **Privacidad por Diseño (Privacy by Design):** El procesamiento de voz ocurre localmente en el silicio del dispositivo; ninguna conversación o dato sensible se almacena ni se transfiere a servidores externos.
+*   **
 
 ---
 
@@ -129,6 +130,29 @@ if (event.error === 'network' && isListening) {
 * **Causa:** La ruta de la API en Next.js estaba mal indexada debido a un plural incorrecto o archivos cacheados obsoletos en la carpeta ```.next```. Al fallar la ruta, Vercel devolvía una página de error 404 en HTML nativo (```<!DOCTYPE html>```), el cual fallaba al ser leído por el método ,```.json()```.
 
 * **Solución:** Se renombró estrictamente el archivo de la API a la convención singular obligatoria (``` app/api/downloads/route.ts```), se eliminó manualmente la caché local y se desplegó una respuesta atómica conectada directamente al SDK Serverless de Upstash Redis.
+
+### **Desafío D: Prop Drilling Redundante y Parpadeo Visual (FOUC) en el Cambio de Tema Claro/Oscuro
+
+* **Síntoma:** El cambio de tema provocaba un parpadeo de color molesto al renderizar la app por primera vez y la consola reflejaba una sobrecarga de datos debido al paso innecesario de la propiedad isLightMode (prop drilling) a través de múltiples componentes que no la utilizaban directamente.
+* **Causa:** Los componentes dependían de condicionales de JavaScript para alternar sus clases CSS. Al no estar sincronizado el estado de manera nativa con el árbol de renderizado del documento, el navegador no podía determinar los colores correctos de inmediato, rompiendo además el contraste de componentes críticos como el Header y la sección del Manual.
+*  **Solución:** Se migró la arquitectura de estilos a variables semánticas de Tailwind v4 (como bg-bg-main y text-text-main), eliminando el paso de propiedades redundantes en las interfaces de React. Asimismo, se programó un useEffect en el hook useAppSettings para inyectar o remover directamente la clase .light en la etiqueta raíz <html> del documento:
+  
+```TypeScript
+
+// Sincronizador de Tema Global en hooks/useAppSettings.ts
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const root = window.document.documentElement;
+    if (isLightMode) {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    } else {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    }
+  }
+}, [isLightMode]);
+```
 
 ---
 
