@@ -206,7 +206,7 @@ export default function SettingsModal({ isOpen, onClose, categories, onSaveCateg
 
             {categories.map(cat => (
               <div key={cat.id} className="space-y-2">
-                <h4 className="text-base md:text-sm font-bold text-text-muted border-b border-panel-border pb-1 transition-all duration-300">
+                <h4 className="text-base md:text-sm font-bold text-indicator-text border-b border-panel-border pb-1 transition-all duration-300">
                   {cat.name}
                 </h4>
                 <div className="flex flex-wrap gap-2.5 py-1">
@@ -214,7 +214,7 @@ export default function SettingsModal({ isOpen, onClose, categories, onSaveCateg
                     <button
                       key={p.id}
                       onClick={() => handleDeletePhrase(cat.id, p.id)}
-                      className="bg-input border border-input-border hover:bg-red-500/10 hover:border-red-500/30 text-text-muted hover:text-red-500 dark:hover:text-red-400 text-base md:text-xs px-4 py-2.5 md:px-3 md:py-1.5 rounded-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer shadow-xs"
+                      className="bg-input border border-input-border hover:bg-red-500/10 hover:border-red-500/30 text-text-contrast hover:text-red-500 dark:hover:text-red-400 text-base md:text-xs px-4 py-2.5 md:px-3 md:py-1.5 rounded-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer shadow-xs"
                       title="Eliminar frase"
                     >
                       <span className="font-medium">{p.label}</span>

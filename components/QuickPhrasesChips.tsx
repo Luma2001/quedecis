@@ -44,10 +44,13 @@ export default function QuickPhrasesChips({ categories, onSelectPhrase, onOpenSe
         {/* BOTÓN DE ENGRANAJE ADAPTATIVO PARA ABRIR EL MODAL */}
         <button
           onClick={onOpenSettings}
-          className="bg-input hover:bg-teal-500/10 text-text-muted p-1.5 rounded-lg text-xs border border-input-border shrink-0 transition-all cursor-pointer"
+          className="flex-row bg-input hover:bg-teal-500/10 text-text-muted px-3.5 py-2 md:p-1.5 rounded-lg text-xs border border-input-border shrink-0 transition-all cursor-pointer flex items-center space-x-1.5"
           title="Administrar Frases"
         >
-          ⚙️
+          <span className="font-extrabold block md:hidden text-text-primary">
+            Gestionar <br />Frases
+          </span>
+          <span>⚙️</span>
         </button>
       </div>
 
