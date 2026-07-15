@@ -51,14 +51,14 @@ export default function FeedbackForm() {
   return (
     <section id="feedback" aria-labelledby="feedback"className="w-full max-w-2xl mx-auto p-6 bg-card-bg border border-card-border rounded-3xl backdrop-blur-sm transition-all duration-300">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-bold text-text-primary">🗣️ Tu opinión hace la diferencia</h3>
-        <p className="text-xs text-text-muted mt-1 max-w-md mx-auto leading-relaxed">
+        <h3 className="text-2xl font-bold text-text-primary">🗣️ Tu opinión hace la diferencia</h3>
+        <p className="text-lg text-text-muted mt-1 max-w-md mx-auto leading-relaxed">
           Queremos que esta herramienta sea lo más útil y cómoda posible. Contanos tu experiencia para ayudarnos a seguir mejorando.
         </p>
       </div>
 
       {/* Selector de perfil adaptativo*/}
-      <div className="flex bg-panel p-1 rounded-xl mb-6 max-w-sm mx-auto border border-panel-border transition-colors duration-300">
+      <div className="flex bg-panel text-lg p-1 rounded-xl mb-6 max-w-sm mx-auto border border-panel-border transition-colors duration-300">
         <button
           type="button"
           disabled={isSubmitting}
@@ -98,8 +98,8 @@ export default function FeedbackForm() {
 
         {/* Etiqueta de usuario adaptativa (nombre o institución) */}
         <div>
-          <label className="block text-[10px] font-bold text-indicator-text uppercase tracking-wider mb-1.5 font-mono">
-            {profileType === 'usuario' ? 'Tu Nombre (Opcional)' : 'Nombre o Institución'}
+          <label className="block text-lg font-bold text-indicator-text uppercase tracking-wider mb-1.5 font-mono">
+            {profileType === 'usuario' ? 'Tu Nombre' : 'Nombre o Institución'}
           </label>
           <input 
             type="text" 
@@ -112,7 +112,7 @@ export default function FeedbackForm() {
 
         {/* Etiqueta de correo adaptativa */}
         <div>
-          <label className="block text-[10px] font-bold text-indicator-text uppercase tracking-wider mb-1.5 font-mono">
+          <label className="block text-lg font-bold text-indicator-text uppercase tracking-wider mb-1.5 font-mono">
             Tu Email <span className="text-text-muted font-normal lowercase">(Opcional)</span>
           </label>
           <input 
@@ -126,7 +126,7 @@ export default function FeedbackForm() {
 
         {/* Etiqueta de mensaje adaptativa */}
         <div>
-          <label className="block text-[10px] font-bold text-indicator-text uppercase tracking-wider mb-1.5 font-mono">
+          <label className="block text-lg font-bold text-indicator-text uppercase tracking-wider mb-1.5 font-mono">
             {profileType === 'usuario' ? '¿Cómo fue tu experiencia usando la app?' : 'Tu Opinión o Sugerencia Técnica'}
           </label>
           <textarea 
@@ -147,7 +147,7 @@ export default function FeedbackForm() {
         <button 
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-linear-to-r from-teal-500 to-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-sm transition-all shadow-md shadow-teal-500/10 active:scale-[0.99] disabled:opacity-50 flex items-center justify-center space-x-2 cursor-pointer"
+          className="w-full bg-linear-to-r from-teal-500 to-emerald-500 text-slate-950 font-black py-3.5 rounded-xl text-lg transition-all shadow-md shadow-teal-500/10 active:scale-[0.99] disabled:opacity-50 flex items-center justify-center space-x-2 cursor-pointer"
         >
           <span>{isSubmitting ? 'Enviando...' : 'Enviar mi opinión'}</span>
         </button>

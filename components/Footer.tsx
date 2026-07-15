@@ -64,7 +64,7 @@ export default function Footer() {
 
           {/* Legal Compliance Disclaimer */}
           <div className="md:col-span-12 text-left space-y-3">
-            <h3 className="text-sm font-extrabold text-text-primary uppercase tracking-widest mb-1">
+            <h3 className="text-lg font-extrabold text-text-primary uppercase tracking-widest mb-1">
               Estándares Técnicos y Accesibilidad
             </h3>
             <div className="flex gap-2 items-start text-xs leading-relaxed bg-card-bg p-3.5 border border-card-border rounded-2xl text-text-muted font-sans transition-all duration-300">
@@ -78,7 +78,7 @@ export default function Footer() {
 
         {/* Desarrollado por */}
         <div className="border-t border-panel-border pt-8 mt-8 flex flex-col justify-around items-center text-xs gap-4 text-text-muted font-semibold font-sans mb-20 space-x-1.5 mx-auto sm:mx-0 transition-colors duration-300">
-          <div className="flex items-center gap-1.5 flex-wrap justify-center">
+          <div className="flex text-md items-center gap-1.5 flex-wrap justify-center">
             <small>© {currentYear} ¿Qué Decís? — Desarrollado con</small>
             <Heart className="w-4 h-4 text-red-500 fill-red-500 animate-pulse shrink-0" />
             <small>Por Luma2001.</small>
@@ -100,7 +100,7 @@ export default function Footer() {
             </a>   
           </div>
           
-          <small className="text-center max-w-md">
+          <small className="text-center text-md max-w-md">
             Herramienta de acceso libre para la inclusión social. Conectando personas, derribando mostradores.
           </small>
         </div>
