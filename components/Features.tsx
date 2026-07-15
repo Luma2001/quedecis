@@ -70,7 +70,7 @@ export default function Features() {
             className="text-3xl pt-8 sm:text-4xl font-extrabold tracking-tight font-display text-text-primary leading-relaxed">
             Diseñada especialmente para <span className="text-brand-blue">comunicar en el día a día</span>
           </h2>
-          <p className="mt-3 text-lg text-text-muted font-sans">
+          <p className="mt-3 text-xl text-text-muted font-sans">
             Cada detalle de nuestra aplicación ha sido pensado para resolver los desafíos físicos y de lectura en entornos ruidosos o de atención pública apurada.
           </p>
         </div>
@@ -92,7 +92,7 @@ export default function Features() {
                   <h3 className="text-xl font-extrabold tracking-tight text-brand-blue font-display">
                     {item.title}
                   </h3>
-                  <p className="text-base text-text-main leading-relaxed font-sans">
+                  <p className="text-lg text-text-main leading-relaxed font-sans">
                     {item.desc}
                   </p>
                 </div>

@@ -9,7 +9,7 @@ const Purpose = () => {
             <h3 className="text-sm font-bold uppercase tracking-wider">El Propósito</h3>
           </div>
           <h4 className="text-xl font-bold text-text-primary transition-colors duration-300">Porqué creamos &quot;¿Qué decís?&quot;</h4>
-          <p className="text-sm text-text-main leading-relaxed font-sans transition-colors duration-300">
+          <p className="text-lg text-text-main leading-relaxed font-sans transition-colors duration-300">
             En los mostradores de atención ciudadana, de salud o comerciales, las personas sordas o con dificultades en el habla suelen enfrentar situaciones de frustración debido a las barreras del entorno. Este MVP nace bajo la premisa del <strong>diseño universal</strong>: ofrecer un canal alternativo inmediato que transforma el dictado del administrativo en subtítulos gigantes y el texto del usuario en voz audible, garantizando autonomía, privacidad y un trato digno.
           </p>
         </section>
