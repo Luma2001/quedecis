@@ -62,7 +62,7 @@ const colorMap: Record<string, string> = {
           >
             ¿Cómo se usa? <span className="text-brand-blue transition-colors duration-300">Aprendelo en 10 segundos</span>
           </h2>
-          <p className="mt-3 text-lg text-text-muted leading-relaxed font-sans transition-colors duration-300">
+          <p className="mt-3 text-xl text-text-muted leading-relaxed font-sans transition-colors duration-300">
             La interfaz está diseñada de forma ultra-estructurada para evitar la fricción técnica, facilitando la conversación cruzada inmediata entre oyentes y no oyentes.
           </p>
         </div>
@@ -91,7 +91,7 @@ const colorMap: Record<string, string> = {
                   <h3 className="text-xl font-extrabold font-display text-brand-blue transition-colors duration-300">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-text-main leading-relaxed font-sans transition-colors duration-300">
+                  <p className="text-lg text-text-main leading-relaxed font-sans transition-colors duration-300">
                     {step.desc}
                   </p>
                 </div>

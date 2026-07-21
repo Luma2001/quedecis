@@ -1,7 +1,5 @@
-
-
-
 // Extendemos el objeto Window global del navegador
+// describe una API externa del navegador.
 declare global {
 
 
