@@ -28,7 +28,7 @@ export default function Footer() {
               </div>
             </div>
             
-            <p className="text-sm text-text-muted font-sans max-w-sm leading-relaxed">
+            <p className="text-md text-text-muted font-sans max-w-sm leading-relaxed">
               Herramienta de asistencia auditiva y conversación directa en tiempo real. Hecha con amor y accesible para todas las personas sin distinción física.
             </p>
           </div>

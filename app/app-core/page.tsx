@@ -1,5 +1,8 @@
 'use client';
 
+import { useState } from 'react';
+import { SpeechEngineType } from '@/services/speech';
+
 //Custom hook para manejar el reconocimiento de voz y la transcripción en tiempo real
 import { useSpeechRecognition } from '@/hooks/useSpeechRecognition';
 //Custom hook para manejar la síntesis de voz y la reproducción de audio
@@ -16,14 +19,20 @@ import AudioIndicator from '@/components/AudioIndicator';
 import MicAlert from '@/components/MicAlert';
 
 
+
 export default function AppCorePage() {
+
+  const [engineType, setEngineType] = useState<SpeechEngineType>('web-speech');
+
+
+
   const { 
     isListening, 
+    isLoading,
     transcript, 
-    toggleListening, 
-    micPermissionGranted, 
-    solicitarPermisoMicrofono 
-  } = useSpeechRecognition();
+    engineError,
+    toggleListening
+  } = useSpeechRecognition(engineType);
   
   const { 
     userResponse, 
@@ -56,17 +65,21 @@ const {
     <div className="h-screen w-full flex flex-col justify-between overflow-hidden bg-bg-main text-text-main font-sans transition-colors duration-300">
       
       {/* 1. ZONA SUPERIOR */}     
+      
         <TranscriptDisplay 
             transcript={transcript} 
             fontSize={fontSize} 
             
         />
+      {engineError && (
         <MicAlert 
-          micPermissionGranted={micPermissionGranted} 
-          onRetry={solicitarPermisoMicrofono} 
+          micPermissionGranted={false} 
+          onRetry={toggleListening} 
         />
-     
-      {/* 2. ZONA INTERMEDIA */}      
+      )}
+      
+      {/* 2. ZONA INTERMEDIA */}    
+      
         <QuickPhrasesChips 
             categories={categories}   
             onSelectPhrase={handleSelectPhrase} 
@@ -74,11 +87,14 @@ const {
         />
         <AudioIndicator isSpeaking={isSpeaking}
        />
-
+       
       {/* 3. ZONA INFERIOR */}     
         <ControlPanel 
           userResponse={userResponse}
           isListening={isListening}
+          isLoading={isLoading}
+          engineType={engineType}
+          onEngineTypeChange={setEngineType}
           onInputChange={handleInputChange}
           onSpeak={handleSpeak}
           onToggleListening={toggleListening}
