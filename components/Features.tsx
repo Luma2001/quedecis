@@ -4,7 +4,7 @@ export default function Features() {
   const list = [
     {
       title: "Voz a Texto en tiempo real",
-      desc: "Escuchá lo que el oyente habla. La aplicación captura el audio local mediante Web Speech API y lo muestra al instante en la pantalla con letras gigantes y contraste optimizado (Nota: Esta funcionalidad requiere conectividad a internet activa).",
+      desc: "Escuchá lo que el oyente habla. La aplicación captura el audio local mediante Web Speech API (modo Online) o mediante el motor Vosk WASM (modo Offline sin internet), mostrando las palabras al instante en la pantalla con letras gigantes y contraste optimizado.",
       icon: Mic,
       colorClass: "blue", 
     },
