@@ -1,24 +1,49 @@
 import { useState, useEffect } from 'react';
 import {  QuickPhrase } from '@/data/phrases.data';
 
+const STORAGE_KEY_VOICE = 'que_decis_selected_voice';
+
+
 export function useSpeechSynthesis() {
   const [userResponse, setUserResponse] = useState<string>('');
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [selectedVoiceURI, setSelectedVoiceURI] = useState<string>('');
+  const [selectedVoiceURI, setSelectedVoiceURIState] = useState<string>('');
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
 
   
+  // MANEJADOR PERSONALIZADO PARA GUARDAR LA SELECCIÓN EN LOCALSTORAGE
+    const setSelectedVoiceURI = (uri: string): void => {
+      setSelectedVoiceURIState(uri);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(STORAGE_KEY_VOICE, uri);
+      }
+    };
+
+
   //CARGAR VOCES DISPONIBLES EN EL NAVEGADOR
   useEffect(() => {
+ if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
     const synth = window.speechSynthesis;
+
     const loadVoices = () => {
       const allVoices = synth.getVoices();
       const spanishVoices = allVoices.filter(voice => voice.lang.startsWith('es'));
       setVoices(spanishVoices);
 
       if (spanishVoices.length > 0) {
-        const argVoice = spanishVoices.find(v => v.lang === 'es-AR');
-        setSelectedVoiceURI(argVoice ? argVoice.voiceURI : spanishVoices[0].voiceURI);
+        // 1. Intentamos recuperar la voz guardada en localStorage
+        const savedVoiceURI = localStorage.getItem(STORAGE_KEY_VOICE);
+        const savedVoiceExists = spanishVoices.some(v => v.voiceURI === savedVoiceURI);
+
+        if (savedVoiceURI && savedVoiceExists) {
+          setSelectedVoiceURIState(savedVoiceURI);
+        } else {
+          // 2. Si no hay voz guardada, buscamos la de Argentina (es-AR) o la primera en español
+          const argVoice = spanishVoices.find(v => v.lang === 'es-AR');
+          const defaultVoice = argVoice ? argVoice.voiceURI : spanishVoices[0].voiceURI;
+          setSelectedVoiceURIState(defaultVoice);
+        }
       }
     };
 
@@ -87,15 +112,15 @@ export function useSpeechSynthesis() {
 
 
 
-return {
-userResponse,
-setUserResponse,
-voices,
-selectedVoiceURI,
-setSelectedVoiceURI,
-isSpeaking,
-handleInputChange,
-handleSpeak,
-handleSelectPhrase
-};
+  return {
+    userResponse,
+    setUserResponse,
+    voices,
+    selectedVoiceURI,
+    setSelectedVoiceURI,
+    isSpeaking,
+    handleInputChange,
+    handleSpeak,
+    handleSelectPhrase
+  };
 }

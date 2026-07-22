@@ -4,13 +4,14 @@
 
 ¿Qué Decís? es un Producto Mínimo Viable (MVP) diseñado bajo los principios del **Diseño Universal** para eliminar las barreras de comunicación en entornos de atención al público (como efectores de salud, oficinas gubernamentales o comercios). La aplicación funciona como un canal accesible bidireccional que asiste a personas con discapacidad auditiva (hipoacusia o sordera) o dificultades del habla, permitiendo una interacción fluida, digna y autónoma con el personal de atención sin depender de intermediarios.
 
-La solución está desarrollada como una **PWA (Progressive Web App)** con capacidades **100% offline**, garantizando privacidad absoluta por diseño y total operatividad en zonas con conectividad inestable.
+La solución está desarrollada como una **PWA (Progressive Web App)** con capacidades **100% offline para todas sus funciones** (tanto síntesis como transcripción de voz local vía WebAssembly), garantizando privacidad absoluta por diseño y total operatividad en zonas sin conectividad a internet.
 
 ---
 
 ## 🚀 Características Clave y UX Inclusiva
 ![alt text](./public/image/image2.png)
-*   **Voz a Texto en Tiempo Real:** Captura el dictado del agente oyente a través de la API local del dispositivo y lo traduce instantáneamente en subtítulos de alta visibilidad.
+* **Doble Motor de Voz (Online / Offline Real):** Permite alternar dinámicamente entre la API nativa del navegador y un motor offline local (`Vosk WASM`) para transcribir la voz incluso sin conexión a internet.
+* **Voz a Texto en Tiempo Real:** Captura el dictado del agente oyente a través del micrófono y lo traduce instantáneamente en subtítulos de alta visibilidad.
   
     ![alt text](./public/image/image3.png)
    
@@ -28,6 +29,18 @@ La solución está desarrollada como una **PWA (Progressive Web App)** con capac
 
 ---
 
+## 🧠 Patrones de Diseño y Arquitectura Frontend
+
+Para soportar múltiples motores de reconocimiento de voz de forma escalable sin acoplar la interfaz de usuario, se implementaron patrones de diseño de software avanzados:
+
+* **Strategy Pattern (Patrón Estrategia):** Se definió un contrato base `SpeechEngine` que es implementado por dos motores independientes:
+  * `WebSpeechEngine`: Estrategia online usando la API nativa `SpeechRecognition`.
+  * `VoskEngine`: Estrategia offline utilizando WebAssembly (`vosk-browser`) y procesamiento en Web Workers.
+* **Barrel Pattern (Archivos Barril):** Módulos encapsulados bajo `index.ts` para exponer únicamente las interfaces públicas (`SpeechEngine`, `SpeechEngineType`) e implementar ocultamiento de información.
+* **Custom Hook Orquestador (`useSpeechRecognition`):** Actúa como middleware entre los componentes presentacionales de React y la estrategia activa, gestionando estados asíncronos como `isLoading` (carga del modelo WASM) y `engineError`.
+
+---
+
 ## 🛠️ Stack Tecnológico
 
 El núcleo de la aplicación fue construido utilizando herramientas modernas de desarrollo frontend para garantizar velocidad de renderizado, escalabilidad y compatibilidad:
@@ -42,7 +55,8 @@ El núcleo de la aplicación fue construido utilizando herramientas modernas de 
 *   **APIs Nativas del Navegador (Web APIs):**
     *   `Web Speech API (SpeechRecognition)` para la transcripción del habla a texto.
     *   `SpeechSynthesis` para la lectura artificial del texto a voz.
-*   **Formspree API:** Servicio integrado asíncronamente para la recolección centralizada de feedback cualitativo sin necesidad de infraestructura relacional dedicada.
+    *   `AudioContext` y `MediaDevices API` para la captura e inyección directa de ondas de audio hacia WebAssembly.
+*   **Formspree API:** Servicio integrado asíncronamente para la recolección centralizada de feedback cualitativo.
 
 ---
 
@@ -86,6 +100,20 @@ Durante la fase actual del Producto Mínimo Viable (MVP), la aplicación impleme
 * **Dependencia de Red para Dictado (Voz a Texto):** Debido a que la API nativa `SpeechRecognition` de Google Chrome delega el procesamiento del audio en los servidores de reconocimiento de voz de Google, **la funcionalidad de transcripción requiere conectividad a internet activa**. La síntesis de voz (Texto a Voz), por el contrario, utiliza los paquetes de voz locales del sistema operativo y mantiene soporte offline en la mayoría de los dispositivos.
 * **Escalabilidad Futura:** Para lograr un entorno 100% offline en el dictado, se contempla en futuras versiones la integración de modelos de lenguaje locales optimizados para dispositivos móviles (como *Whisper TFLite* o librerías WebAssembly corriendo en el cliente).
 ---
+
+## Soporte Offline y Capacidades PWA
+¿Qué Decís? no requiere conexión a internet continua para transcribir voz:
+
+
+* **Soporte PWA Completo:** La interfaz gráfica, la arquitectura de componentes, el Service Worker y el motor de síntesis de voz quedan guardados de forma local en el almacenamiento del dispositivo.
+
+* **Modelo Local de Lenguaje (Vosk WASM):** Al seleccionar el modo Offline (Vosk WASM) en la barra de controles, la PWA inicializa un Web Worker que descarga en memoria el modelo liviano en español (```vosk-model-small-es-0.42```). Toda la conversión de señal de audio a texto se realiza dentro del navegador del usuario sin enviar un solo paquete de datos a la red.
+
+* **Modo Híbrido Recomendado:** Permite al usuario usar el modo Online para transcripciones ultra rápidas cuando hay red, y conmutar en un toque al modo Offline cuando viaja o se encuentra en zonas de atención con mala cobertura.
+
+
+
+
 ## 🛠️ Bitácora de Troubleshooting (Resolución de Problemas en Producción)
 
 Durante el ciclo de desarrollo y despliegue del MVP, se identificaron y solucionaron tres desafíos técnicos de nivel arquitectónico en el entorno productivo:
@@ -154,6 +182,15 @@ useEffect(() => {
 }, [isLightMode]);
 ```
 
+
+### **Desafío E: Incompatibilidad de Tipos de Mensajes en Vosk y Error 404 al Cargar el Modelo WASM
+
+* **Síntoma:** Error de TypeScript ```ts(2345)``` en los eventos .on('result') y congelamiento de la UI en estado "Cargando..." con error ```HTTP 404```.
+* **Causa:** La interfaz nativa de ```vosk-browser``` utiliza firmas internas no exportadas en el nivel superior y la URL del modelo no estaba sirviéndose en el path relativo correcto de Next.js.
+*  **Solución:** Se resolvió el tipado de TypeScript usando la aserción segura (```message: unknown```) con validación opcional (```msg?.result?.text```) evitando el uso de any. Asimismo, se corrigió el path hacia ```/models/vosk-model-small-es-0.42.zip``` alojado dentro del directorio ```/public``` de Next.js.
+
+
+
 ---
 
 ## 🤖 Desarrollo Asistido por Inteligencia Artificial (AI-Driven Development)
@@ -165,6 +202,8 @@ Este proyecto adoptó un enfoque moderno de desarrollo integrando Inteligencia A
 * **Pair Programming para Troubleshooting:**  Frente a errores complejos de compilación asíncrona en entornos cruzados (como el bug del Service Worker en Windows) o interrupciones de Web APIs nativas, la IA actuó como pair programmer para acelerar la detección de la causa raíz (Root Cause Analysis) y formular soluciones blindadas.
 
 * **Mejoras de Accesibilidad y UX:** Consultas puntuales sobre las mejores prácticas en el diseño centrado en el usuario para adaptar lógicas de interfaz que abrazaran genuinamente los conceptos de Diseño Universal.
+  
+* **Diseño de Arquitectura y Patrones:** Asistencia en la implementación del Strategy Pattern para desacoplar el reconocimiento nativo del motor de WebAssembly (Vosk), abstrayendo la lógica en Hooks customizados de React.
 
 ---
 

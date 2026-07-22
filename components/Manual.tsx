@@ -1,6 +1,6 @@
 'use client';
 
-import { Smartphone, Mic, Eye, Speech, HelpCircle } from "lucide-react";
+import { Smartphone, Mic, Eye, Speech, HelpCircle, WifiOff } from "lucide-react";
 
 export default function Manual() {
   const steps = [
@@ -11,10 +11,10 @@ export default function Manual() {
       icon: Smartphone,
       colorClass: "blue",
     },
-    {
+{
       num: "02",
-      title: "Presioná Escuchar",
-      desc: "Dale tu teléfono a la persona oyente o apúntalo en su dirección para que empiece a capturar su voz con el micrófono.",
+      title: "Elegí el modo y escuchá",
+      desc: "Seleccioná modo Online o modo Offline (sin internet). Apuntá el teléfono a la persona oyente para transcribir su voz con el micrófono.",
       icon: Mic,
       colorClass: "emerald",
     },
@@ -62,7 +62,7 @@ const colorMap: Record<string, string> = {
           >
             ¿Cómo se usa? <span className="text-brand-blue transition-colors duration-300">Aprendelo en 10 segundos</span>
           </h2>
-          <p className="mt-3 text-lg text-text-muted leading-relaxed font-sans transition-colors duration-300">
+          <p className="mt-3 text-xl text-text-muted leading-relaxed font-sans transition-colors duration-300">
             La interfaz está diseñada de forma ultra-estructurada para evitar la fricción técnica, facilitando la conversación cruzada inmediata entre oyentes y no oyentes.
           </p>
         </div>
@@ -91,7 +91,7 @@ const colorMap: Record<string, string> = {
                   <h3 className="text-xl font-extrabold font-display text-brand-blue transition-colors duration-300">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-text-main leading-relaxed font-sans transition-colors duration-300">
+                  <p className="text-lg text-text-main leading-relaxed font-sans transition-colors duration-300">
                     {step.desc}
                   </p>
                 </div>
@@ -99,6 +99,15 @@ const colorMap: Record<string, string> = {
               </div>
             );
           })}
+        </div>
+
+        {/* Banner Informativo sobre el Modo Offline */}
+        <div className="mt-12 max-w-3xl mx-auto p-4 rounded-2xl bg-input-bg border border-input-border flex items-start space-x-3 text-left">
+          <WifiOff className="w-6 h-6 text-brand-blue shrink-0 mt-1" />
+          <div className="text-sm leading-relaxed text-text-main">
+            <span className="font-bold text-brand-blue block mb-0.5">💡 Tip sobre el Modo Offline (Vosk):</span>
+            La primera vez que actives el motor <strong>Offline</strong>, la aplicación descargará en la memoria de tu dispositivo el paquete de idioma español. Esto puede tardar unos segundos dependiendo de tu conexión, pero solo ocurre una vez. ¡Después funcionará al instante sin internet!
+          </div>
         </div>
 
       </div>

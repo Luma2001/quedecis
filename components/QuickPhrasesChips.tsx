@@ -18,7 +18,7 @@ export default function QuickPhrasesChips({ categories, onSelectPhrase, onOpenSe
   const currentCategory = categories.find(cat => cat.id === activeCategory);
 
   return (
-    <section className="flex-1 p-4 bg-card-bg flex flex-col space-y-3 overflow-hidden transition-colors duration-300">
+    <section className="flex-1 p-2.5 bg-card-bg flex flex-col space-y-3 overflow-visible transition-colors duration-300">
       
       {/* NAV DE PESTAÑAS (CATEGORÍAS) */}
       <div className="flex items-center justify-between border-b border-panel-border pb-2 shrink-0 transition-colors duration-300">

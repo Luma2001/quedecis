@@ -38,7 +38,7 @@ export default function PWARegistrationCounter() {
 
   return (
     <div className="flex flex-col items-center space-y-3 p-4 bg-card-bg border border-card-border rounded-2xl max-w-sm mx-auto transition-all duration-300">
-      <p className="text-xs text-center text-text-muted transition-colors duration-300 font-sans">
+      <p className="text-md text-center text-text-muted transition-colors duration-300 font-sans">
         Para instalar la app en tu celular o compu, usa el botón nativo de instalación 📥 en la barra de tu navegador.
       </p>
 

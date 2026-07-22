@@ -89,7 +89,7 @@ export default function SettingsModal({ isOpen, onClose, categories, onSaveCateg
 
   return (
    
-    <div className="fixed inset-0 z-150 flex items-end sm:items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md transition-all duration-300">
+    <section className="fixed inset-0 z-150 flex items-end sm:items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md transition-all duration-300">
       
       {/* Tarjeta contenedora principal con fondo sólido para evitar que el blur del fondo interfiera */}
       <div className="w-full max-w-lg bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transition-all animate-in slide-in-from-bottom duration-300">
@@ -228,6 +228,7 @@ export default function SettingsModal({ isOpen, onClose, categories, onSaveCateg
 
         </div>
       </div>
-    </div>
+      
+    </section>
   );
 }
