@@ -1,114 +1,286 @@
 @import "tailwindcss";
 
-:root{
-  /*Variables por defecto (Modo Oscuro)*/
-  --bg-primary: #0b0f19;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* ==========================================================================
+     PALETA NUEVA "¿QUÉ DECÍS?" - MODO OSCURO POR DEFECTO
+     ========================================================================== */
+  --background: #0b1020;
+  --foreground: #ffffff;
+
+  /* Superficies y Tarjetas */
+  --card: #1e293b;
+  --card-foreground: #ffffff;
+  --popover: #1e293b;
+  --popover-foreground: #ffffff;
+
+  /* Colores de Marca y Acción */
+  --primary: #00b8a9;              /* Turquesa */
+  --primary-foreground: #0b1020;   /* Texto oscuro sobre botón turquesa */
+  --secondary: #00a878;            /* Verde */
+  --secondary-foreground: #0b1020; /* Texto oscuro sobre botón verde */
+  --accent: #ffd166;               /* Acento Amarillo */
+  --accent-foreground: #0b1020;
+
+  /* Textos secundarios y Muted */
+  --muted: #1e293b;
+  --muted-foreground: #989a9d;
+
+  /* Controles, Inputs y Bordes */
+  --border: #475569;
+  --input: #1e293b;
+  --ring: #00b8a9;
+  --radius: 0.75rem;
+
+  /* Estados y Errores */
+  --destructive: #ff6b6b;
+  --destructive-icon: #eb3223;
+  --destructive-foreground: #0b1020;
+
+  /* Indicadores de Audio / Voz */
+  --indicator-text: #00b8a9;
+  --indicator-bg: rgba(0, 184, 169, 0.1);
+  --indicator-border: rgba(0, 184, 169, 0.25);
+  --overlay-bg: rgba(11, 16, 32, 0.85);
+
+  /* Retrocompatibilidad con variables previas de "¿Qué decís?" */
+  --bg-primary: var(--background);
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
   --text-strong: #ffffff;
-  --text-accent: #38bdf8;
-  /*Audio*/
-  --indicator-text: #2dd4bf;
-  --indicator-bg: rgba(13, 148, 136, 0.1);/*con opacidad 10%*/
-  --indicator-border: rgba(13, 148, 136, 0.2);/*con opacidad 20%*/
-  /*Overlay*/
-  --overlay-bg: rgba(2,6,23,0.7)/*Overlay: Slate 950 con 70% de opacidad */
-  /*Panel*/
-  --panel-bg: #; 
-  --panel-bg: #0f172a; /* bg-slate-900 */
-  --panel-border: rgba(30, 41, 59, 0.6); /* border-slate-800/60 */
-  --card-bg: rgba(30, 41, 59, 0.4);      /* bg-slate-800/40 */
-  --card-border: rgba(30, 41, 59, 0.8);  /* border-slate-800/80 */
-  --input-bg: #1e293b;               /* bg-slate-800 */
-  --input-border: #334155;           /* border-slate-700 */
+  --text-accent: var(--primary);
+  --panel-bg: var(--card);
+  --panel-border: var(--border);
+  --card-bg: var(--card);
+  --card-border: var(--border);
+  --input-bg: var(--input);
+  --input-border: var(--border);
 }
 
-/* Modo Claro: Variables cuando el contenedor tiene la clase 'light' */
+/* Modo Claro (Alternativo) */
 .light {
-  --bg-primary: #f8fafc;       
-  --text-primary: #0f172a;     
-  --text-secondary: #475569;   
-  --text-strong: #ffffee;
-  --text-accent: #0284c7;
-  /*Audio*/
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #008f83;
+  --primary-foreground: #ffffff;
+  --secondary: #00855f;
+  --secondary-foreground: #ffffff;
+  --accent: #b45309;
+  --accent-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --border: #cbd5e1;
+  --input: #f1f5f9;
+  --ring: #008f83;
+  --destructive: #dc2626;
+
   --indicator-text: #0f766e;
   --indicator-bg: rgba(20, 184, 166, 0.08);
-  --indicator-border: rgba(20, 184, 166, 0.15);
-  /*Overlay*/
-  --overlay-bg: rgba(248, 250, 252, 0.8);/*Overlay: Slate 50 con 80% de opacidad */
-  /*Panel*/
-  --panel-bg: #ffffff;               /* bg-white */
-  --panel-border: #e2e8f0;           /* border-slate-200 */
-  --card-bg: #f8fafc;                /* bg-slate-50 */
-  --card-border: #cbd5e1;            /* border-slate-300 (Subimos contraste para accesibilidad) */
-  --input-bg: #f1f5f9;               /* bg-slate-100 */
-  --input-border: #cbd5e1;           /* border-slate-300 */
+  --indicator-border: rgba(20, 184, 166, 0.2);
+  --overlay-bg: rgba(248, 250, 252, 0.85);
 }
 
 @theme {
-  /* Declaramos las variables adentro de @theme, Tailwind v4 hace dos cosas, por ejemplo:
-     1. Crea la variable nativa --color-brand-blue.
-     2. Genera automáticamente la clase de utilidad: text-brand-blue o bg-brand-blue. */
-  --color-brand-blue: var(--text-accent);
-  --font-sans: var(--font-atkinson), sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
+  /* Variables de Audio y Compatibilidad */
   --color-indicator-text: var(--indicator-text);
   --color-indicator-bg: var(--indicator-bg);
   --color-indicator-border: var(--indicator-border);
-  --color-bg-main: var(--bg-primary);
   --color-overlay: var(--overlay-bg);
-
-  /*Clases para el control panel*/
-  --color-panel-bg: var(--panel-bg);
-  --color-panel-border: var(--panel-border);
-  --color-card-bg: var(--card-bg);
-  --color-card-border: var(--card-border);
-  --color-input-bg: var(--input-bg);
-  --color-input-border: var(--input-border);
-
-  /*Textos accesibles*/
-  --color-text-main: var(--text-primary);
-  --color-text-muted: var(--text-secondary);
-  --color-text-contrast: var(--text-strong);
-
-  
+  --color-brand-blue: var(--primary);
+  --color-text-main: var(--foreground);
+  --color-text-muted: var(--muted-foreground);
+  --color-text-contrast: var(--foreground);
 }
 
-/* Aplicamos las variables al body de forma global */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
   body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-sans);
-    /*transition(mejoramos UX): cuando el usuario cambia entre el Modo Claro 
-    y el Modo Oscuro, los colores de fondo y de texto no cambian de golpe*/
-    transition: background-color 0.3s ease, color 0.3s ease; 
-  }
-
-
-
-/* 
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-atkinson), system-ui, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+/* Reducción de movimiento por sistema */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   ESCALADO DINÁMICO DE FUENTES
+   ========================================================================== */
+.a11y-font-large {
+  font-size: 115% !important;
+}
+
+.a11y-font-larger {
+  font-size: 130% !important;
+}
+
+/* ==========================================================================
+   MODOS DE ACCESIBILIDAD DINÁMICOS
+   ========================================================================== */
+
+/* 1. Modo Alto Contraste (Fondo Blanco Puro y Negro Nítido WCAG AAA) */
+.a11y-contrast {
+  --background: #ffffff !important;
+  --foreground: #000000 !important;
+  --card: #ffffff !important;
+  --card-foreground: #000000 !important;
+  --popover: #ffffff !important;
+  --popover-foreground: #000000 !important;
+  --primary: #000000 !important;
+  --primary-foreground: #ffffff !important;
+  --secondary: #f0f0f0 !important;
+  --secondary-foreground: #000000 !important;
+  --muted: #f0f0f0 !important;
+  --muted-foreground: #000000 !important;
+  --border: #000000 !important;
+  --input: #000000 !important;
+  --ring: #000000 !important;
+  font-weight: 500;
+}
+
+.a11y-contrast [data-radix-popper-content-wrapper] {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.a11y-contrast .bg-popover,
+.a11y-contrast [role="dialog"],
+.a11y-contrast .bg-card {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+.a11y-contrast button,
+.a11y-contrast input,
+.a11y-contrast textarea {
+  border: 2px solid #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="unchecked"] {
+  background-color: #e5e5e5 !important;
+  border: 2px solid #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="unchecked"] span {
+  background-color: #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="checked"] {
+  background-color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="checked"] span {
+  background-color: #ffffff !important;
+}
+
+.a11y-contrast .fixed button[aria-label="Abrir panel de opciones de accesibilidad"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 0 0 0 2px #ffffff, 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.a11y-contrast .fixed button[aria-label="Abrir panel de opciones de accesibilidad"] svg {
+  stroke: #ffffff !important;
+}
+
+/* 2. Modo Apto Dislexia */
+.a11y-reading {
+  letter-spacing: 0.08em !important;
+  word-spacing: 0.16em !important;
+  line-height: 1.85 !important;
+}
+
+.a11y-reading p,
+.a11y-reading span,
+.a11y-reading li,
+.a11y-reading button,
+.a11y-reading a {
+  line-height: 1.85 !important;
+}
+
+/* 3. Modo Resaltar Enlaces */
+.a11y-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 4px !important;
+  font-weight: 700 !important;
+}
+
+/* 4. Modo Detener Animaciones */
+.a11y-no-motion *,
+.a11y-no-motion *::before,
+.a11y-no-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* 5. Ocultar Imágenes */
+.a11y-no-images img,
+.a11y-no-images picture,
+.a11y-no-images video,
+.a11y-no-images [role="img"]:not(button *):not(a *) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 6. Feedback para Lectura por Voz */
+.a11y-audio-reader p,
+.a11y-audio-reader h1,
+.a11y-audio-reader h2,
+.a11y-audio-reader h3,
+.a11y-audio-reader li {
+  cursor: pointer;
+}
+
+.a11y-audio-reader p:hover,
+.a11y-audio-reader h1:hover,
+.a11y-audio-reader h2:hover,
+.a11y-audio-reader h3:hover {
+  outline: 2px dashed var(--primary);
+  outline-offset: 4px;
+}
