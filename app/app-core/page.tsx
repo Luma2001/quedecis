@@ -3,14 +3,12 @@
 import { useState } from 'react';
 import { SpeechEngineType } from '@/services/speech';
 
-//Custom hook para manejar el reconocimiento de voz y la transcripción en tiempo real
+// Custom hooks
 import { useSpeechRecognition } from '@/hooks/useSpeechRecognition';
-//Custom hook para manejar la síntesis de voz y la reproducción de audio
 import { useSpeechSynthesis } from '@/hooks/useSpeechSynthesis';
-//Custom hook para manejar la configuración de la app (tamaño de fuente, lateralidad, modo claro/oscuro, categorías)
 import { useAppSettings } from '@/hooks/useAppSettings';
 
-// Importamos nuestros componentes limpios con el alias @/
+// Componentes modulares accesibles
 import TranscriptDisplay from '@/components/TranscriptDisplay';
 import QuickPhrasesChips from '@/components/QuickPhrasesChips';
 import ControlPanel from '@/components/ControlPanel';
@@ -18,13 +16,8 @@ import SettingsModal from '@/components/SettingsModal';
 import AudioIndicator from '@/components/AudioIndicator';
 import MicAlert from '@/components/MicAlert';
 
-
-
 export default function AppCorePage() {
-
   const [engineType, setEngineType] = useState<SpeechEngineType>('web-speech');
-
-
 
   const { 
     isListening, 
@@ -36,7 +29,7 @@ export default function AppCorePage() {
   
   const { 
     userResponse, 
-    voices,
+    voices = [],
     selectedVoiceURI,
     setSelectedVoiceURI,
     handleInputChange, 
@@ -45,7 +38,7 @@ export default function AppCorePage() {
     isSpeaking 
   } = useSpeechSynthesis();
 
-const { 
+  const { 
     fontSize,
     isLeftHanded,
     toggleLeftHanded,
@@ -58,37 +51,45 @@ const {
     increaseFontSize,
     decreaseFontSize
   } = useAppSettings();
- 
 
-  
   return (
-    <div className="h-screen w-full flex flex-col justify-between overflow-hidden bg-bg-main text-text-main font-sans transition-colors duration-300">
-      
-      {/* 1. ZONA SUPERIOR */}     
-      
+    <main 
+      id="main-content"
+      aria-label="Aplicación de comunicación inclusiva"
+      className="h-dvh w-full flex flex-col justify-between overflow-hidden bg-slate-950 text-slate-100 font-sans transition-colors duration-300 a11y-contrast:bg-black a11y-contrast:text-white"
+    >
+      <h1 className="sr-only">
+        ¿Qué Decís? — Asistente de Comunicación Accesible
+      </h1>
+
+      {/* 1. ZONA SUPERIOR: Visor de subtítulos gigantes y alertas */}
+      <div className="w-full flex-1 flex flex-col min-h-0">
         <TranscriptDisplay 
-            transcript={transcript} 
-            fontSize={fontSize} 
-            
+          transcript={transcript} 
+          fontSize={fontSize} 
         />
-      {engineError && (
-        <MicAlert 
-          micPermissionGranted={false} 
-          onRetry={toggleListening} 
-        />
-      )}
-      
-      {/* 2. ZONA INTERMEDIA */}    
-      
+        {engineError && (
+          <div className="p-2">
+            <MicAlert 
+              micPermissionGranted={false} 
+              onRetry={toggleListening} 
+            />
+          </div>
+        )}
+      </div>
+
+      {/* 2. ZONA INTERMEDIA: Frases rápidas e indicador de audio */}
+      <div className="w-full shrink-0">
+        <AudioIndicator isSpeaking={isSpeaking} />
         <QuickPhrasesChips 
-            categories={categories}   
-            onSelectPhrase={handleSelectPhrase} 
-            onOpenSettings={() => setIsSettingsOpen(true)} 
+          categories={categories}   
+          onSelectPhrase={handleSelectPhrase} 
+          onOpenSettings={() => setIsSettingsOpen(true)} 
         />
-        <AudioIndicator isSpeaking={isSpeaking}
-       />
-       
-      {/* 3. ZONA INFERIOR */}     
+      </div>
+
+      {/* 3. ZONA INFERIOR: Panel de control e interacción */}
+      <div className="w-full shrink-0">
         <ControlPanel 
           userResponse={userResponse}
           isListening={isListening}
@@ -109,14 +110,15 @@ const {
           isLightMode={isLightMode}
           onToggleTheme={toggleLightMode}
         />
+      </div>
 
-        {/* 4. MODAL DE AJUSTES (Componente Flotante global) */}
-        <SettingsModal 
-          isOpen={isSettingsOpen}
-          onClose={() => setIsSettingsOpen(false)}
-          categories={categories}
-          onSaveCategories={setCategories}
-        />
-    </div>
+      {/* 4. MODAL DE AJUSTES (Flotante) */}
+      <SettingsModal 
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        categories={categories}
+        onSaveCategories={setCategories}
+      />
+    </main>
   );
 }
