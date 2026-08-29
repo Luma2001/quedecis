@@ -4,7 +4,7 @@ import { SpeechEngine, SpeechEngineType, WebSpeechEngine, VoskEngine } from '@/s
 export function useSpeechRecognition(engineType: SpeechEngineType = 'web-speech') {
   const [isListening, setIsListening] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [transcript, setTranscript] = useState<string>('Presioná el botón de abajo y empezá la transcripción...');
+  const [transcript, setTranscript] = useState<string>('Presioná "TRANSCRIBIR VOZ" para leer lo que dice el interlocutor...');
   const [engineError, setEngineError] = useState<string | null>(null);
 
   // Guardamos la referencia al motor activo

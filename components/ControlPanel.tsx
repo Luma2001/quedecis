@@ -1,8 +1,8 @@
 'use client';
-//Componente Presentacional: todo lo que necesita para existir se lo pide a su padre "app-core/page.tsx" a través del contrato "interface ControlPanelProps" 
-//No tiene estado propio, no tiene lógica de negocio, no tiene side effects, no tiene hooks. Solo recibe props y las muestra en pantalla.
 
+import React from 'react';
 import { SpeechEngineType } from '@/services/speech';
+import { Volume2, Mic, MicOff, Loader2, Sun, Moon, Type } from 'lucide-react';
 
 interface ControlPanelProps {
   userResponse: string;
@@ -43,104 +43,126 @@ export default function ControlPanel({
   isLeftHanded,
   onToggleLateralidad,
   isLightMode,
-  onToggleTheme
+  onToggleTheme,
 }: ControlPanelProps) {
   return (
-    <section className="w-full max-w-md mx-auto p-2.5 space-y-2 border-t overflow-y-scroll bg-input-bg border-input-border text-brand-blue transition-colors duration-300">
-      
-      {/*INPUT PRINCIPAL DE ESCRITURA */}
-      <input
-        id="input-text"
-        type="text"
-        value={userResponse}
-        onChange={onInputChange}
-        onFocus={(e) => e.target.select()}
-        placeholder="Escribí tu respuesta acá..."
-        className="w-full rounded-xl px-4 py-3 text-base bg-input border-input-border text-text-primary placeholder-text-text-muted focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500/50 transition-all border"
-      />
+    <section 
+      aria-label="Panel de control e interacción de voz"
+      className="w-full max-w-md mx-auto p-3 space-y-3 bg-slate-950 border-t border-slate-800 text-slate-100 transition-colors duration-300 a11y-contrast:bg-black a11y-contrast:border-t-2 a11y-contrast:border-white"
+    >
+      {/* 1. INPUT PRINCIPAL DE ESCRITURA */}
+      <div>
+        <label htmlFor="input-text" className="sr-only">
+          Escribí tu mensaje o respuesta para reproducir en voz alta
+        </label>
+        <input
+          id="input-text"
+          type="text"
+          value={userResponse}
+          onChange={onInputChange}
+          onFocus={(e) => e.target.select()}
+          placeholder="Escribí tu respuesta acá..."
+          className="w-full rounded-xl px-4 py-3 text-base bg-slate-900 border border-slate-700 text-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:border-transparent transition-all a11y-contrast:bg-black a11y-contrast:text-white a11y-contrast:placeholder:text-slate-300 a11y-contrast:border-2 a11y-contrast:border-white a11y-contrast:focus-visible:border-yellow-400"
+        />
+      </div>
 
-      {/* DISTRIBUCIÓN EN PARALELO CON CONTROL DE DIRECCIÓN (RTL si es zurdo) */}
-      {/* Usamos el atributo nativo HTML 'dir' para espejar el flujo del grid completo */}
+      {/* 2. DISTRIBUCIÓN EN PARALELO CON CONTROL DE LATERALIDAD */}
       <div className="grid grid-cols-12 gap-2" dir={isLeftHanded ? 'rtl' : 'ltr'}>
         
-        {/* PANEL DE ACCESIBILIDAD*/}
-        {/* Restauramos la dirección a ltr internamente en la cajita para que los botones +- no se inviertan */}
-        <div className="col-span-7 p-2.5 rounded-xl border flex flex-col justify-between space-y-2 bg-card-bg border-card-border transition-colors duration-300" dir="ltr">
-          
-          {/* Fila de controles superiores: Letra y Switch de mano */}
-          <div className="flex items-center justify-between">
+        {/* PANEL DE ACCESIBILIDAD Y AJUSTES (7 de 12 cols) */}
+        <div 
+          className="col-span-7 p-2.5 rounded-xl border border-slate-800 bg-slate-900/90 flex flex-col justify-between space-y-2.5 transition-colors duration-300 a11y-contrast:bg-black a11y-contrast:border-2 a11y-contrast:border-white" 
+          dir="ltr"
+        >
+          {/* Fila de controles: Tamaño de fuente y Modo de mano / Tema */}
+          <div className="flex items-center justify-between gap-1">
+            {/* Control de Fuente */}
             <div className="flex flex-col space-y-1">
-              <span className="text-[11px] font-bold text-text-secondary uppercase tracking-widest flex items-center gap-1">
-                <span className="text-sm">👁️</span><span> Letra:</span></span>
+              <span className="text-[10px] font-bold text-teal-400 a11y-contrast:text-yellow-400 uppercase tracking-wider font-mono flex items-center gap-1">
+                <Type className="w-3 h-3" aria-hidden="true" />
+                <span>Letra</span>
+              </span>
               <div className="flex items-center space-x-1">
                 <button 
+                  type="button"
                   onClick={onDecreaseFontSize}
-                  className="w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-90 border"
+                  aria-label="Reducir tamaño de letra"
+                  className="w-7 h-7 rounded-lg font-bold text-xs flex justify-center items-center bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 a11y-contrast:bg-black a11y-contrast:text-white a11y-contrast:border a11y-contrast:border-white"
                 >
                   A-
                 </button>
-                <span className="h-7 text-sm font-mono w-11 text-center py-1 rounded bg-input-bg border-input-border text-brand-blue">
-                  {fontSize}px
+                <span 
+                  aria-live="polite"
+                  className="h-7 text-xs font-mono font-bold w-10 text-center py-1 rounded bg-slate-950 border border-slate-800 text-teal-300 a11y-contrast:bg-black a11y-contrast:text-yellow-400 a11y-contrast:border a11y-contrast:border-white"
+                >
+                  {fontSize}
                 </span>
                 <button 
+                  type="button"
                   onClick={onIncreaseFontSize}
-                  className="w-7 h-7 rounded-lg font-bold text-sm flex justify-center items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-90 border">
+                  aria-label="Aumentar tamaño de letra"
+                  className="w-7 h-7 rounded-lg font-bold text-xs flex justify-center items-center bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 a11y-contrast:bg-black a11y-contrast:text-white a11y-contrast:border a11y-contrast:border-white"
+                >
                   A+
                 </button>
               </div>
             </div>
 
-            {/* COLUMNA DE BOTONES DE CONFIGURACIÓN DE INTERFAZ */}
-            <div className="flex flex-col space-y-1.5 min-w-12.5">
-              {/*BOTÓN INTERRUPTOR DE TEMA (SOL / LUNA) */}
+            {/* Alternadores de Tema y Lateralidad */}
+            <div className="flex flex-col space-y-1">
               <button
+                type="button"
                 onClick={onToggleTheme}
-                className="p-1 rounded-lg flex flex-col items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-95 border"
-                title={isLightMode ? "Cambiar a Modo Oscuro" : "Cambiar a Modo Claro"}
+                aria-label={isLightMode ? "Cambiar a modo oscuro" : "Cambiar a modo claro"}
+                className="px-2 py-1 rounded-lg flex items-center justify-center gap-1 bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 a11y-contrast:bg-black a11y-contrast:text-yellow-400 a11y-contrast:border a11y-contrast:border-white"
               >
-                <span className="text-md">{isLightMode ? '🌙' : '☀️'}</span>
-                <span className="text-[10px] font-bold mt-0.5">{isLightMode ? 'OSCURO' : 'CLARO'}</span>
+                {isLightMode ? <Moon className="w-3.5 h-3.5" aria-hidden="true" /> : <Sun className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />}
+                <span className="text-[9px] font-bold font-mono">{isLightMode ? 'OSCURO' : 'CLARO'}</span>
               </button>
-              {/*BOTÓN INTERRUPTOR DE LATERALIDAD */}
+              
               <button
+                type="button"
                 onClick={onToggleLateralidad}
-                className="px-4 py-1 rounded-lg flex flex-col items-center bg-input border-input-border text-text-primary hover:bg-teal-500/10 transition-all active:scale-95 border"
-                title={isLeftHanded ? "Cambiar a modo Diestro" : "Cambiar a modo Zurdo"}
+                aria-label={isLeftHanded ? "Cambiar a modo diestro" : "Cambiar a modo zurdo"}
+                className="px-2 py-1 rounded-lg flex items-center justify-center gap-1 bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 a11y-contrast:bg-black a11y-contrast:text-yellow-400 a11y-contrast:border a11y-contrast:border-white"
               >
-                <span className="text-md">{isLeftHanded ? '🫲' : '🫱'}</span>
-                <span className="text-[10px] text-text-muted mt-0.5">{isLeftHanded ? 'ZURDO' : 'DIESTRO'}</span>
+                <span className="text-xs" aria-hidden="true">{isLeftHanded ? '🫲' : '🫱'}</span>
+                <span className="text-[9px] font-bold font-mono">{isLeftHanded ? 'ZURDO' : 'DIESTRO'}</span>
               </button>
             </div>
           </div>
 
-          {/* Selector de Modo (Online / Offline) */}
+          {/* Selector de Motor de Voz */}
           <div className="flex flex-col space-y-1">
-            <label className="text-[11px] text-text-secondary font-bold uppercase tracking-widest flex items-center gap-1">
-              <span className="text-sm">⚙️</span><span>Modo Voz:</span>
+            <label htmlFor="speech-engine-select" className="text-[10px] text-teal-400 a11y-contrast:text-yellow-400 font-bold uppercase tracking-wider font-mono">
+              Modo Voz
             </label>
             <select
+              id="speech-engine-select"
               value={engineType}
               onChange={(e) => onEngineTypeChange(e.target.value as SpeechEngineType)}
               disabled={isListening || isLoading}
-              className="w-full text-xs rounded-lg p-1 bg-input border-input-border text-text-primary focus:outline-none focus:ring-1 focus:ring-teal-500 border truncate"
+              className="w-full text-xs rounded-lg p-1.5 bg-slate-950 border border-slate-700 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 disabled:opacity-50 truncate a11y-contrast:bg-black a11y-contrast:text-white a11y-contrast:border a11y-contrast:border-white"
             >
-              <option className="bg-panel-bg text-text-main" value="web-speech">Online (Navegador)</option>
-              <option className="bg-panel-bg text-text-main" value="offline">Offline (Vosk WASM)</option>
+              <option className="bg-slate-950 text-white" value="web-speech">Online (Navegador)</option>
+              <option className="bg-slate-950 text-white" value="offline">Offline (Vosk WASM)</option>
             </select>
           </div>    
-
 
           {/* Selector de Voces */}
           {voices.length > 0 && (
             <div className="flex flex-col space-y-1">
-              <label className="text-[11px] text-text-secondary font-bold uppercase tracking-widest flex items-center gap-1">
-                <span className="text-sm">🗣️</span><span>Voz:</span></label>
+              <label htmlFor="speech-voice-select" className="text-[10px] text-teal-400 a11y-contrast:text-yellow-400 font-bold uppercase tracking-wider font-mono">
+                Voz
+              </label>
               <select
+                id="speech-voice-select"
                 value={selectedVoiceURI}
                 onChange={(e) => onVoiceChange(e.target.value)}
-                className="w-full text-xs rounded-lg p-1 bg-input border-input-border text-text-primary focus:outline-none focus:ring-1 focus:ring-teal-500 border truncate">
+                className="w-full text-xs rounded-lg p-1.5 bg-slate-950 border border-slate-700 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 truncate a11y-contrast:bg-black a11y-contrast:text-white a11y-contrast:border a11y-contrast:border-white"
+              >
                 {voices.map((voice) => (
-                  <option key={voice.voiceURI} value={voice.voiceURI} className="bg-panel-bg text-text-main">
+                  <option key={voice.voiceURI} value={voice.voiceURI} className="bg-slate-950 text-white">
                     {voice.name}
                   </option>
                 ))}
@@ -149,34 +171,48 @@ export default function ControlPanel({
           )}
         </div>
 
-        {/* COLUMNA DE BOTONES PRINCIPALES (Ocupa 5 de 12 columnas) */}
-        {/* Se fuerza 'dir="ltr"' para que los íconos de los botones queden prolijos a la izquierda del texto */}
+        {/* COLUMNA DE BOTONES PRINCIPALES (5 de 12 cols) */}
         <div className="col-span-5 flex flex-col space-y-2" dir="ltr">
           {/* Botón Decir en voz alta */}
           <button
+            type="button"
             onClick={() => onSpeak(userResponse)}
-            className="flex-1 bg-teal-600 hover:bg-teal-500 active:scale-[0.98] text-white text-lg font-semibold rounded-xl transition-all shadow-md flex flex-col justify-center items-center p-1 text-center"
+            aria-label="Reproducir texto en voz alta"
+            className="flex-1 bg-teal-500 hover:bg-teal-400 active:scale-[0.98] text-slate-950 font-black rounded-xl transition-all shadow-md flex flex-col justify-center items-center p-2 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 a11y-contrast:bg-yellow-400 a11y-contrast:text-black a11y-contrast:border-2 a11y-contrast:border-white"
           >
-            <span className="text-lg mb-0.5">🔊</span>
-            <span>Decir texto</span>
+            <Volume2 className="w-6 h-6 mb-1 text-slate-950 a11y-contrast:text-black" aria-hidden="true" />
+            <span className="text-sm font-bold tracking-tight leading-tight">Decir texto</span>
           </button>
 
           {/* Botón Escuchar Micrófono */}
           <button
+            type="button"
             onClick={onToggleListening}
             disabled={isLoading}
-            className={`flex-1 text-lg font-bold rounded-xl transition-all shadow-lg flex flex-col justify-center items-center p-1 text-center ${
+            aria-pressed={isListening}
+            aria-label={
+              isLoading 
+                ? "Cargando motor de reconocimiento de voz" 
+                : isListening 
+                ? "Detener transcripción de voz" 
+                : "Iniciar escucha y transcripción de voz"
+            }
+            className={`flex-1 font-black rounded-xl transition-all shadow-lg flex flex-col justify-center items-center p-2 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 ${
               isLoading
-                ? 'bg-amber-600 animate-pulse text-white cursor-wait'
+                ? 'bg-amber-600 animate-pulse text-white cursor-wait focus-visible:ring-amber-400'
                 : isListening
-                ? 'bg-red-600 hover:bg-red-500 animate-pulse text-white'
-                : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                ? 'bg-rose-600 hover:bg-rose-500 animate-pulse text-white focus-visible:ring-rose-400 a11y-contrast:bg-red-600 a11y-contrast:text-white a11y-contrast:border-2 a11y-contrast:border-white'
+                : 'bg-emerald-600 hover:bg-emerald-500 text-white focus-visible:ring-emerald-400 a11y-contrast:bg-black a11y-contrast:text-yellow-400 a11y-contrast:border-2 a11y-contrast:border-yellow-400'
             }`}
           >
-            <span className="text-xl mb-0.5">
-              {isLoading ? '⏳' : isListening ? '🛑' : '🎙️'}
-            </span>
-            <span>
+            {isLoading ? (
+              <Loader2 className="w-6 h-6 mb-1 animate-spin" aria-hidden="true" />
+            ) : isListening ? (
+              <MicOff className="w-6 h-6 mb-1" aria-hidden="true" />
+            ) : (
+              <Mic className="w-6 h-6 mb-1" aria-hidden="true" />
+            )}
+            <span className="text-sm font-bold tracking-tight leading-tight">
               {isLoading ? 'Cargando...' : isListening ? 'Detener' : 'Escuchar'}
             </span>
           </button>

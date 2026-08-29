@@ -3,12 +3,21 @@ import type { Metadata } from "next";
    en personas con baja visión. Se enfoca en la distinción de caracteres */
 import { Atkinson_Hyperlegible } from 'next/font/google';
 
-import "./styles/globals.css";
+import "./globals.css";
+
+// Módulos de Accesibilidad
+import { AccessibilityProvider } from "@/context/AccessibilityContext";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { SkipToContent } from "@/components/site/SkipToContent";
+import { AccessibilityWidget } from "@/components/site/AccessibilityWidget";
+import { ReadingGuide } from "@/components/site/ReadingGuide";
+import { AudioReader } from "@/components/site/AudioReader";
 
 const atkinson = Atkinson_Hyperlegible({ 
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-atkinson",//es el nombre de la variable CSS que se usará para referenciar esta fuente en el proyecto.
+  display: "swap",
 });
 
 
@@ -43,9 +52,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={` h-full antialiased ${atkinson.variable}`}>
-      <body className="min-h-full flex flex-col">
-        {children}
+<html lang="es" suppressHydrationWarning className={`h-full antialiased ${atkinson.variable}`}>
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <AccessibilityProvider>
+          <TooltipProvider delayDuration={200}>
+            {/* Salto de accesibilidad para navegación por teclado */}
+            <SkipToContent />
+
+            {/* Escuchador global de texto a voz al hacer clic */}
+            <AudioReader />
+
+            {/* Guía visual horizontal de lectura */}
+            <ReadingGuide />
+
+            {/* Contenedor principal semántico */}
+            <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+              {children}
+            </main>
+
+            {/* Menú flotante de accesibilidad */}
+            <AccessibilityWidget />
+          </TooltipProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   );

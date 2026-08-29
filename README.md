@@ -11,21 +11,19 @@ La solución está desarrollada como una **PWA (Progressive Web App)** con capac
 ## 🚀 Características Clave y UX Inclusiva
 ![alt text](./public/image/image2.png)
 * **Doble Motor de Voz (Online / Offline Real):** Permite alternar dinámicamente entre la API nativa del navegador y un motor offline local (`Vosk WASM`) para transcribir la voz incluso sin conexión a internet.
-* **Voz a Texto en Tiempo Real:** Captura el dictado del agente oyente a través del micrófono y lo traduce instantáneamente en subtítulos de alta visibilidad.
+* **Transcriptor Adaptable en Tiempo Real (`TranscriptDisplay`):** Subtítulos gigantes de alta visibilidad con escalado dinámico de tipografía (A+ / A-) y soporte tipográfico especial para dislexia sin desbordes.
   
     ![alt text](./public/image/image3.png)
-   
+* **Drawer de Frases Rápidas (`QuickPhrasesDrawer`):** Acceso táctil inmediato tipo panel de chat/emojis con navegación horizontal de categorías fluidas (*Trámites, Saludos, Urgencias*).
+  ![alt text](./public/image/image5.png)
+*   **Modal de Accesibilidad en Vivo (`AccessibilityModal`):** Control instantáneo de tamaño de letra, alternancia de contraste alto/normal, modos claro/oscuro y selector de voces del sistema.
+* **Feedback Háptico Sensorial (`useHapticFeedback`):** Patrones de vibración continua sincronizados con el estado del micrófono para que personas sordas sientan físicamente cuándo su interlocutor está hablando y cuándo hace silencio. 
 *   **Texto a Voz Instantáneo:** Permite al usuario tippear respuestas personalizadas que el motor de síntesis reproduce de forma audible con acentos locales.
    
    ![alt text](./public/image/image4.png)
 
-*   **Catálogo de Frases Rápidas:** Selector horizontal (carrusel) optimizado para dispositivos móviles que agrupa expresiones de uso común organizadas por categorías (*Trámites, Saludos, Urgencias*).
-  ![alt text](./public/image/image5.png)
-*   **Ergonomía Adaptativa (Modo Zurdo):** Permite invertir la disposición de la botonera principal para facilitar la operación con un solo pulgar según la lateralidad del usuario.
-   ![alt text](./public/image/image6.png) ![alt text](./public/image/image7.png)
-*   **Control de Accesibilidad Visual:** Ajuste dinámico de tipografía (hasta 60px) en tiempo real y cuenta con modo claro/oscuro nativo con Tailwind v4 y variables CSS semánticas.
 *   **Privacidad por Diseño (Privacy by Design):** El procesamiento de voz ocurre localmente en el silicio del dispositivo; ninguna conversación o dato sensible se almacena ni se transfiere a servidores externos.
-*   **
+
 
 ---
 
@@ -55,6 +53,7 @@ El núcleo de la aplicación fue construido utilizando herramientas modernas de 
 *   **APIs Nativas del Navegador (Web APIs):**
     *   `Web Speech API (SpeechRecognition)` para la transcripción del habla a texto.
     *   `SpeechSynthesis` para la lectura artificial del texto a voz.
+    *   `Vibration API` para proveer feedback háptico sensorial continuo durante la escucha activa.
     *   `AudioContext` y `MediaDevices API` para la captura e inyección directa de ondas de audio hacia WebAssembly.
 *   **Formspree API:** Servicio integrado asíncronamente para la recolección centralizada de feedback cualitativo.
 
@@ -74,11 +73,22 @@ El proyecto sigue la convención limpia de carpetas de Next.js (App Router), ais
 │   ├── layout.tsx               # Envoltura global de estilos y metadatos del sistema
 │   └── page.tsx                 # Landing Page principal optimizada para conversión y feedback
 ├── components/
-│   ├── FeedbackForm.tsx         # Componente modularizado e inclusivo de recolección de feedback
-│   ├── Features.tsx             # Bloque estático de características del sistema
-│   ├── Manual.tsx               # Guía rápida e instructivo visual de uso
-│   ├── PWARegistrationCounter.tsx # Contador visual conectado al endpoint de descargas
-│   └── logo.tsx                 # Identidad visual vectorizada del proyecto
+│   ├── AccessibilityModal.tsx   # Modal de configuración de accesibilidad en tiempo real
+│   ├── AudioIndicator.tsx       # Indicador visual y de ondas de audio
+│   ├── FeedbackForm.tsx         # Formulario accesible de recolección de feedback
+│   ├── Features.tsx             # Bloque de características del sistema
+│   ├── Manual.tsx               # Guía rápida e instructivo visual
+│   ├── MicAlert.tsx             # Manejo accesible de permisos y errores del micrófono
+│   ├── PWARegistrationCounter.tsx # Contador de instalaciones conectadas
+│   ├── QuickPhrasesDrawer.tsx   # Panel inferior deslizable de frases por categoría
+│   ├── SettingsModal.tsx        # Administrador y creador de frases personalizadas
+│   ├── TranscriptDisplay.tsx    # Visor gigante adaptable para dislexia y subtítulos
+│   └── logo.tsx                 # Identidad visual vectorizada
+├── hooks/
+│   ├── useAppSettings.ts        # Hook global de fuentes, temas y categorías
+│   ├── useHapticFeedback.ts     # Hook de pulsos de vibración táctil
+│   ├── useSpeechRecognition.ts  # Hook orquestador de reconocimiento de voz (Strategy)
+│   └── useSpeechSynthesis.ts    # Hook de síntesis y reproducción de voz
 ├── public/
 │   ├── icons/                   # Manifiesto de iconos requeridos para cumplimiento PWA
 │   ├── image/                   # Assets visuales y fondos optimizados
@@ -96,8 +106,10 @@ El proyecto sigue la convención limpia de carpetas de Next.js (App Router), ais
 
 Durante la fase actual del Producto Mínimo Viable (MVP), la aplicación implementa una estrategia híbrida de conectividad:
 
-* **Soporte PWA Offline:** La interfaz gráfica, la arquitectura de componentes, las frases rápidas y el manual de asistencia técnica están completamente guardados de forma local en la memoria caché del celular gracias al Service Worker y funcionan **100% sin conexión a internet**.
-* **Dependencia de Red para Dictado (Voz a Texto):** Debido a que la API nativa `SpeechRecognition` de Google Chrome delega el procesamiento del audio en los servidores de reconocimiento de voz de Google, **la funcionalidad de transcripción requiere conectividad a internet activa**. La síntesis de voz (Texto a Voz), por el contrario, utiliza los paquetes de voz locales del sistema operativo y mantiene soporte offline en la mayoría de los dispositivos.
+* **Soporte PWA 100% Offline:** La interfaz gráfica, la gestión de frases rápidas, la síntesis de voz (TTS) y los manuales quedan guardados en caché local gracias al Service Worker y no requieren conexión.
+* **Reconocimiento Híbrido:**
+  * **Modo Online (Web Speech API):** Transcripción nativa ultra rápida para cuando hay conectividad estable.
+  * **Modo Offline (Vosk WASM):** Ejecución 100% en el cliente mediante WebAssembly y Web Workers con el modelo `vosk-model-small-es-0.42`, permitiendo transcribir voz en zonas sin cobertura o sin acceso a internet.
 * **Escalabilidad Futura:** Para lograr un entorno 100% offline en el dictado, se contempla en futuras versiones la integración de modelos de lenguaje locales optimizados para dispositivos móviles (como *Whisper TFLite* o librerías WebAssembly corriendo en el cliente).
 ---
 
@@ -189,7 +201,17 @@ useEffect(() => {
 * **Causa:** La interfaz nativa de ```vosk-browser``` utiliza firmas internas no exportadas en el nivel superior y la URL del modelo no estaba sirviéndose en el path relativo correcto de Next.js.
 *  **Solución:** Se resolvió el tipado de TypeScript usando la aserción segura (```message: unknown```) con validación opcional (```msg?.result?.text```) evitando el uso de any. Asimismo, se corrigió el path hacia ```/models/vosk-model-small-es-0.42.zip``` alojado dentro del directorio ```/public``` de Next.js.
 
+### **Desafío F:** Desbordamiento de Texto y Colisión de Componentes en Modo Lectura Accesible (Dislexia)
 
+* **Síntoma:** Al activar el modo de lectura para dislexia con interlineado ampliado (`line-height: 1.85`), el visor cortaba el texto inicial y tapaba los avisos de voz superiores.
+* **Causa:** El contenedor del visor utilizaba alineaciones rígidas de Flexbox (`justify-end` y `margin: auto`) combinadas con `overflow-y-auto`, lo que producía recortes inaccesibles al expandirse la caja de texto.
+* **Solución:** Se modularizó `TranscriptDisplay.tsx` separando los avisos superiores en un contenedor con `pointer-events-none` e implementando un área central con scroll natural de arriba hacia abajo (`wrap-break-word` y tamaño de fuente acotado dinámicamente).
+
+### **Desafío G:** Error de Renderizado en Cascada en React 19 (`react-hooks/set-state-in-effect`)
+
+* **Síntoma:** Advertencia de ESLint/TypeScript por llamadas sincrónicas a `setState` dentro de `useEffect` al montar la configuración de accesibilidad.
+* **Causa:** La nueva regla de React Hooks previene renders en cascada innecesarios al sincronizar datos persistidos desde `localStorage`.
+* **Solución:** Se migraron los estados locales a inicializadores perezosos (*lazy initializers* como `useState(() => localStorage.getItem(...))`), sincronizando los cambios directamente en los manejadores de eventos.
 
 ---
 

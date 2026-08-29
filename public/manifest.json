@@ -1,11 +1,11 @@
 {
-  "name": "¿Qué decís? - Asistente de Comunicación",
+  "name": "¿Qué decís? - Asistente de Comunicación Accesible",
   "short_name": "¿Qué decís?",
   "description": "MVP de asistencia de comunicación offline para mostradores de atención. Herramienta de asistencia auditiva y conversación interactiva con Voz a Texto y Texto a Voz para personas sordas o con hipoacusia.",
   "start_url": "/app-core",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#0b1020",
+  "theme_color": "#00b8a9",
   "orientation": "portrait",
   "categories": ["accessibility", "utilities", "medical"],
   "icons": [
