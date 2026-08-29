@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* ==========================================================================
+     PALETA NUEVA "¿QUÉ DECÍS?" - MODO OSCURO POR DEFECTO
+     ========================================================================== */
+  --background: #0b1020;
+  --foreground: #ffffff;
+
+  /* Superficies y Tarjetas */
+  --card: #1e293b;
+  --card-foreground: #ffffff;
+  --popover: #1e293b;
+  --popover-foreground: #ffffff;
+
+  /* Colores de Marca y Acción */
+  --primary: #00b8a9;              /* Turquesa */
+  --primary-foreground: #0b1020;   /* Texto oscuro sobre botón turquesa */
+  --secondary: #00a878;            /* Verde */
+  --secondary-foreground: #0b1020; /* Texto oscuro sobre botón verde */
+  --accent: #ffd166;               /* Acento Amarillo */
+  --accent-foreground: #0b1020;
+
+  /* Textos secundarios y Muted */
+  --muted: #1e293b;
+  --muted-foreground: #989a9d;
+
+  /* Controles, Inputs y Bordes */
+  --border: #475569;
+  --input: #1e293b;
+  --ring: #00b8a9;
+  --radius: 0.75rem;
+
+  /* Estados y Errores */
+  --destructive: #ff6b6b;
+  --destructive-icon: #eb3223;
+  --destructive-foreground: #0b1020;
+
+  /* Indicadores de Audio / Voz */
+  --indicator-text: #00b8a9;
+  --indicator-bg: rgba(0, 184, 169, 0.1);
+  --indicator-border: rgba(0, 184, 169, 0.25);
+  --overlay-bg: rgba(11, 16, 32, 0.85);
+
+  /* Retrocompatibilidad con variables previas de "¿Qué decís?" */
+  --bg-primary: var(--background);
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
+  --text-strong: #ffffff;
+  --text-accent: var(--primary);
+  --panel-bg: var(--card);
+  --panel-border: var(--border);
+  --card-bg: var(--card);
+  --card-border: var(--border);
+  --input-bg: var(--input);
+  --input-border: var(--border);
+}
+
+/* Modo Claro (Alternativo) */
+.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #008f83;
+  --primary-foreground: #ffffff;
+  --secondary: #00855f;
+  --secondary-foreground: #ffffff;
+  --accent: #b45309;
+  --accent-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --border: #cbd5e1;
+  --input: #f1f5f9;
+  --ring: #008f83;
+  --destructive: #dc2626;
+
+  --indicator-text: #0f766e;
+  --indicator-bg: rgba(20, 184, 166, 0.08);
+  --indicator-border: rgba(20, 184, 166, 0.2);
+  --overlay-bg: rgba(248, 250, 252, 0.85);
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Variables de Audio y Compatibilidad */
+  --color-indicator-text: var(--indicator-text);
+  --color-indicator-bg: var(--indicator-bg);
+  --color-indicator-border: var(--indicator-border);
+  --color-overlay: var(--overlay-bg);
+  --color-brand-blue: var(--primary);
+  --color-text-main: var(--foreground);
+  --color-text-muted: var(--muted-foreground);
+  --color-text-contrast: var(--foreground);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-atkinson), system-ui, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Reducción de movimiento por sistema */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   ESCALADO DINÁMICO DE FUENTES
+   ========================================================================== */
+.a11y-font-large {
+  font-size: 115% !important;
+}
+
+.a11y-font-larger {
+  font-size: 130% !important;
+}
+
+/* ==========================================================================
+   MODOS DE ACCESIBILIDAD DINÁMICOS
+   ========================================================================== */
+
+/* 1. Modo Alto Contraste (Fondo Blanco Puro y Negro Nítido WCAG AAA) */
+.a11y-contrast {
+  --background: #ffffff !important;
+  --foreground: #000000 !important;
+  --card: #ffffff !important;
+  --card-foreground: #000000 !important;
+  --popover: #ffffff !important;
+  --popover-foreground: #000000 !important;
+  --primary: #000000 !important;
+  --primary-foreground: #ffffff !important;
+  --secondary: #f0f0f0 !important;
+  --secondary-foreground: #000000 !important;
+  --muted: #f0f0f0 !important;
+  --muted-foreground: #000000 !important;
+  --border: #000000 !important;
+  --input: #000000 !important;
+  --ring: #000000 !important;
+  font-weight: 500;
+}
+
+.a11y-contrast [data-radix-popper-content-wrapper] {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.a11y-contrast .bg-popover,
+.a11y-contrast [role="dialog"],
+.a11y-contrast .bg-card {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+.a11y-contrast button,
+.a11y-contrast input,
+.a11y-contrast textarea {
+  border: 2px solid #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="unchecked"] {
+  background-color: #e5e5e5 !important;
+  border: 2px solid #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="unchecked"] span {
+  background-color: #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="checked"] {
+  background-color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+.a11y-contrast [role="switch"][data-state="checked"] span {
+  background-color: #ffffff !important;
+}
+
+.a11y-contrast .fixed button[aria-label="Abrir panel de opciones de accesibilidad"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 0 0 0 2px #ffffff, 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.a11y-contrast .fixed button[aria-label="Abrir panel de opciones de accesibilidad"] svg {
+  stroke: #ffffff !important;
+}
+
+/* 2. Modo Apto Dislexia */
+.a11y-reading {
+  letter-spacing: 0.08em !important;
+  word-spacing: 0.16em !important;
+  line-height: 1.85 !important;
+}
+
+.a11y-reading p,
+.a11y-reading span,
+.a11y-reading li,
+.a11y-reading button,
+.a11y-reading a {
+  line-height: 1.85 !important;
+}
+
+/* 3. Modo Resaltar Enlaces */
+.a11y-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 4px !important;
+  font-weight: 700 !important;
+}
+
+/* 4. Modo Detener Animaciones */
+.a11y-no-motion *,
+.a11y-no-motion *::before,
+.a11y-no-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* 5. Ocultar Imágenes */
+.a11y-no-images img,
+.a11y-no-images picture,
+.a11y-no-images video,
+.a11y-no-images [role="img"]:not(button *):not(a *) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 6. Feedback para Lectura por Voz */
+.a11y-audio-reader p,
+.a11y-audio-reader h1,
+.a11y-audio-reader h2,
+.a11y-audio-reader h3,
+.a11y-audio-reader li {
+  cursor: pointer;
+}
+
+.a11y-audio-reader p:hover,
+.a11y-audio-reader h1:hover,
+.a11y-audio-reader h2:hover,
+.a11y-audio-reader h3:hover {
+  outline: 2px dashed var(--primary);
+  outline-offset: 4px;
+}
