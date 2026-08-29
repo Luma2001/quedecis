@@ -228,9 +228,9 @@
 
 /* 2. Modo Apto Dislexia */
 .a11y-reading {
-  letter-spacing: 0.08em !important;
-  word-spacing: 0.16em !important;
-  line-height: 1.85 !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.12em !important;
+  line-height: 1.65 !important;
 }
 
 .a11y-reading p,
@@ -238,7 +238,7 @@
 .a11y-reading li,
 .a11y-reading button,
 .a11y-reading a {
-  line-height: 1.85 !important;
+  line-height: 1.65 !important;
 }
 
 /* 3. Modo Resaltar Enlaces */
